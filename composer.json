@@ -1,0 +1,43 @@
+{
+  "name": "yii-podium/yii2-api-active-record",
+  "type": "yii2-extension",
+  "description": "Yii 2 Forum Module API With Active Record.",
+  "keywords": ["forum", "yii2", "extension", "podium", "module", "api", "bizley"],
+  "license": "Apache-2.0",
+  "support": {
+    "issues": "https://github.com/yii-podium/yii2-api-active-record/issues",
+    "source": "https://github.com/yii-podium/yii2-api-active-record"
+  },
+  "authors": [
+    {
+      "name": "Paweł Bizley Brzozowski",
+      "email": "pawel@positive.codes"
+    }
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "yii-podium/yii2-api": "^0.1"
+  },
+  "require-dev": {
+    "infection/infection": "*",
+    "phpunit/phpunit": "^9.3",
+    "phpstan/phpstan": "*",
+    "roave/security-advisories": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "Podium\\ActiveRecordApi\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Podium\\Tests\\": "tests/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ]
+}
