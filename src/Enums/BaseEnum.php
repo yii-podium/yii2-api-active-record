@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\enums;
+namespace Podium\ActiveRecordApi\Enums;
 
 use function array_key_exists;
 use function array_keys;
@@ -40,8 +40,7 @@ abstract class BaseEnum
     /**
      * Returns ENUM description.
      *
-     * @param string $enum    ENUM value
-     * @param mixed  $default what to return in case ENUM has not been found
+     * @param mixed $default what to return in case ENUM has not been found
      *
      * @return mixed
      */
@@ -52,8 +51,6 @@ abstract class BaseEnum
 
     /**
      * Checks if ENUM is defined.
-     *
-     * @param string $enum ENUM value
      */
     public static function exists(string $enum): bool
     {

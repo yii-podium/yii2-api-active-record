@@ -2,22 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\enums;
+namespace Podium\ActiveRecordApi\Enums;
 
 use Yii;
 
-/**
- * Class AcquaintanceType
- * @package Podium\ActiveRecordApi\enums
- */
 final class AcquaintanceType extends BaseEnum
 {
     public const FRIEND = 'friend';
     public const IGNORE = 'ignore';
 
-    /**
-     * {@inheritdoc}
-     */
     public static function data(): array
     {
         return [

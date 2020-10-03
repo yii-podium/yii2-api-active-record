@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\Migrations;
 
-use Podium\ActiveRecordApi\enums\MessageStatus;
+use Podium\ActiveRecordApi\Enums\MessageStatus;
 use yii\db\Connection;
 use yii\db\Migration;
 

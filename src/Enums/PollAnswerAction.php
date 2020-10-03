@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\enums;
+namespace Podium\ActiveRecordApi\Enums;
 
 use Yii;
 
@@ -12,9 +12,6 @@ final class PollAnswerAction extends BaseEnum
     public const EDIT = 'edit';
     public const REMOVE = 'remove';
 
-    /**
-     * {@inheritdoc}
-     */
     public static function data(): array
     {
         return [

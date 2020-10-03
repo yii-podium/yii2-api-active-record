@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\enums;
+namespace Podium\ActiveRecordApi\Enums;
 
 use Yii;
 
@@ -11,9 +11,6 @@ final class MessageSide extends BaseEnum
     public const SENDER = 'sender';
     public const RECEIVER = 'receiver';
 
-    /**
-     * {@inheritdoc}
-     */
     public static function data(): array
     {
         return [

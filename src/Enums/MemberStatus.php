@@ -2,23 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\enums;
+namespace Podium\ActiveRecordApi\Enums;
 
 use Yii;
 
-/**
- * Class MemberStatus
- * @package Podium\ActiveRecordApi\enums
- */
 final class MemberStatus extends BaseEnum
 {
     public const REGISTERED = 'registered';
     public const ACTIVE = 'active';
     public const BANNED = 'banned';
 
-    /**
-     * {@inheritdoc}
-     */
     public static function data(): array
     {
         return [

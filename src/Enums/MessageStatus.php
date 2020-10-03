@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\enums;
+namespace Podium\ActiveRecordApi\Enums;
 
 use Yii;
 
@@ -11,9 +11,6 @@ final class MessageStatus extends BaseEnum
     public const NEW = 'new';
     public const READ = 'read';
 
-    /**
-     * {@inheritdoc}
-     */
     public static function data(): array
     {
         return [

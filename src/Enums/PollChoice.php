@@ -2,22 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\enums;
+namespace Podium\ActiveRecordApi\Enums;
 
 use Yii;
 
-/**
- * Class PollChoice
- * @package Podium\ActiveRecordApi\enums
- */
 final class PollChoice extends BaseEnum
 {
     public const SINGLE = 'single';
     public const MULTIPLE = 'multiple';
 
-    /**
-     * {@inheritdoc}
-     */
     public static function data(): array
     {
         return [
