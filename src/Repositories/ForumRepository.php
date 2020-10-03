@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\repositories;
 
-use Podium\ActiveRecordApi\ars\ForumActiveRecord;
+use Podium\ActiveRecordApi\ActiveRecords\ForumActiveRecord;
 use Podium\ActiveRecordApi\interfaces\ActiveRecordRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\CategoryRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\ForumRepositoryInterface;
@@ -41,7 +41,7 @@ final class ForumRepository implements ForumRepositoryInterface, ActiveRecordRep
     public function setModel(ActiveRecord $forumActiveRecord): void
     {
         if (!$forumActiveRecord instanceof ForumActiveRecord) {
-            throw new LogicException('You need to pass Podium\ActiveRecordApi\ars\ForumActiveRecord!');
+            throw new LogicException('You need to pass Podium\ActiveRecordApi\ActiveRecords\ForumActiveRecord!');
         }
 
         $this->model = $forumActiveRecord;

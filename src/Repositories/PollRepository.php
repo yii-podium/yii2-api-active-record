@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\repositories;
 
-use Podium\ActiveRecordApi\ars\PollActiveRecord;
+use Podium\ActiveRecordApi\ActiveRecords\PollActiveRecord;
 use Podium\ActiveRecordApi\enums\PollAnswerAction;
 use Podium\ActiveRecordApi\enums\PollChoice;
 use Podium\ActiveRecordApi\interfaces\ActiveRecordRepositoryInterface;
@@ -47,7 +47,7 @@ final class PollRepository implements PollRepositoryInterface, ActiveRecordRepos
     public function setModel(ActiveRecord $pollActiveRecord): void
     {
         if (!$pollActiveRecord instanceof PollActiveRecord) {
-            throw new LogicException('You need to pass Podium\ActiveRecordApi\ars\PollActiveRecord!');
+            throw new LogicException('You need to pass Podium\ActiveRecordApi\ActiveRecords\PollActiveRecord!');
         }
 
         $this->model = $pollActiveRecord;

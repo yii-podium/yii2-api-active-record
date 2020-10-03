@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\repositories;
 
-use Podium\ActiveRecordApi\ars\PollAnswerActiveRecord;
+use Podium\ActiveRecordApi\ActiveRecords\PollAnswerActiveRecord;
 use Podium\ActiveRecordApi\interfaces\PollAnswerRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\PollRepositoryInterface;
 use DomainException;

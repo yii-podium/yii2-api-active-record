@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\repositories;
 
-use Podium\ActiveRecordApi\ars\ThumbActiveRecord;
+use Podium\ActiveRecordApi\ActiveRecords\ThumbActiveRecord;
 use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\PostRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\ThumbRepositoryInterface;

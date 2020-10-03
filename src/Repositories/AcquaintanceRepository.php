@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\repositories;
 
-use Podium\ActiveRecordApi\ars\AcquaintanceActiveRecord;
+use Podium\ActiveRecordApi\ActiveRecords\AcquaintanceActiveRecord;
 use Podium\ActiveRecordApi\enums\AcquaintanceType;
 use Podium\ActiveRecordApi\interfaces\AcquaintanceRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\repositories;
 
-use Podium\ActiveRecordApi\ars\PollVoteActiveRecord;
+use Podium\ActiveRecordApi\ActiveRecords\PollVoteActiveRecord;
 use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\PollAnswerRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\PollRepositoryInterface;

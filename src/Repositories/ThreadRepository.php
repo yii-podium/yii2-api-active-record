@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\repositories;
 
-use Podium\ActiveRecordApi\ars\ThreadActiveRecord;
+use Podium\ActiveRecordApi\ActiveRecords\ThreadActiveRecord;
 use Podium\ActiveRecordApi\interfaces\ActiveRecordRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\ForumRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;
@@ -41,7 +41,7 @@ final class ThreadRepository implements ThreadRepositoryInterface, ActiveRecordR
     public function setModel(ActiveRecord $threadActiveRecord): void
     {
         if (!$threadActiveRecord instanceof ThreadActiveRecord) {
-            throw new LogicException('You need to pass Podium\ActiveRecordApi\ars\ThreadActiveRecord!');
+            throw new LogicException('You need to pass Podium\ActiveRecordApi\ActiveRecords\ThreadActiveRecord!');
         }
 
         $this->model = $threadActiveRecord;

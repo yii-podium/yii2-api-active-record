@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\repositories;
 
-use Podium\ActiveRecordApi\ars\BookmarkActiveRecord;
+use Podium\ActiveRecordApi\ActiveRecords\BookmarkActiveRecord;
 use Podium\ActiveRecordApi\interfaces\BookmarkRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\ThreadRepositoryInterface;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\repositories;
 
-use Podium\ActiveRecordApi\ars\CategoryActiveRecord;
+use Podium\ActiveRecordApi\ActiveRecords\CategoryActiveRecord;
 use Podium\ActiveRecordApi\interfaces\ActiveRecordRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\CategoryRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;
@@ -44,7 +44,7 @@ final class CategoryRepository implements CategoryRepositoryInterface, ActiveRec
     public function setModel(ActiveRecord $categoryActiveRecord): void
     {
         if (!$categoryActiveRecord instanceof CategoryActiveRecord) {
-            throw new LogicException('You need to pass Podium\ActiveRecordApi\ars\CategoryActiveRecord!');
+            throw new LogicException('You need to pass Podium\ActiveRecordApi\ActiveRecords\CategoryActiveRecord!');
         }
 
         $this->model = $categoryActiveRecord;

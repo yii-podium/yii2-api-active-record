@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\repositories;
 
-use Podium\ActiveRecordApi\ars\PostActiveRecord;
+use Podium\ActiveRecordApi\ActiveRecords\PostActiveRecord;
 use Podium\ActiveRecordApi\interfaces\ActiveRecordRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\PostRepositoryInterface;
@@ -41,7 +41,7 @@ final class PostRepository implements PostRepositoryInterface, ActiveRecordRepos
     public function setModel(ActiveRecord $postActiveRecord): void
     {
         if (!$postActiveRecord instanceof PostActiveRecord) {
-            throw new LogicException('You need to pass Podium\ActiveRecordApi\ars\PostActiveRecord!');
+            throw new LogicException('You need to pass Podium\ActiveRecordApi\ActiveRecords\PostActiveRecord!');
         }
 
         $this->model = $postActiveRecord;

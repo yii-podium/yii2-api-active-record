@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\ars;
+namespace Podium\ActiveRecordApi\ActiveRecords;
 
 use Podium\ActiveRecordApi\enums\MessageSide;
 use Yii;

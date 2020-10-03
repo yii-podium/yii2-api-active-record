@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\repositories;
 
-use Podium\ActiveRecordApi\ars\GroupActiveRecord;
+use Podium\ActiveRecordApi\ActiveRecords\GroupActiveRecord;
 use Podium\ActiveRecordApi\interfaces\GroupRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\RepositoryInterface;
 use LogicException;

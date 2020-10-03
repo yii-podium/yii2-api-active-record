@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\repositories;
 
-use Podium\ActiveRecordApi\ars\GroupMemberActiveRecord;
+use Podium\ActiveRecordApi\ActiveRecords\GroupMemberActiveRecord;
 use Podium\ActiveRecordApi\interfaces\GroupMemberRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\GroupRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\repositories;
 
-use Podium\ActiveRecordApi\ars\SubscriptionActiveRecord;
+use Podium\ActiveRecordApi\ActiveRecords\SubscriptionActiveRecord;
 use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\SubscriptionRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\ThreadRepositoryInterface;

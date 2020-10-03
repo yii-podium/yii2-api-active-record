@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\ars;
+namespace Podium\ActiveRecordApi\ActiveRecords;
 
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;

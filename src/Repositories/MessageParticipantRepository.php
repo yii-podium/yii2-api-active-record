@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\repositories;
 
-use Podium\ActiveRecordApi\ars\MessageParticipantActiveRecord;
+use Podium\ActiveRecordApi\ActiveRecords\MessageParticipantActiveRecord;
 use Podium\ActiveRecordApi\enums\MessageSide;
 use Podium\ActiveRecordApi\enums\MessageStatus;
 use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;

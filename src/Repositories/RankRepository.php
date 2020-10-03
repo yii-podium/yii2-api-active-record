@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\repositories;
 
-use Podium\ActiveRecordApi\ars\RankActiveRecord;
+use Podium\ActiveRecordApi\ActiveRecords\RankActiveRecord;
 use Podium\ActiveRecordApi\interfaces\RankRepositoryInterface;
 use Podium\ActiveRecordApi\interfaces\RepositoryInterface;
 use LogicException;
