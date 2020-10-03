@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\ActiveRecords;
 
-use Podium\ActiveRecordApi\enums\PollChoice;
+use Podium\ActiveRecordApi\Enums\PollChoice;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;

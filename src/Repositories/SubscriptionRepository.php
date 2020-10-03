@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Podium\ActiveRecordApi\repositories;
 
 use Podium\ActiveRecordApi\ActiveRecords\SubscriptionActiveRecord;
-use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\SubscriptionRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\ThreadRepositoryInterface;
+use Podium\Api\Interfaces\MemberRepositoryInterface;
+use Podium\Api\Interfaces\SubscriptionRepositoryInterface;
+use Podium\Api\Interfaces\ThreadRepositoryInterface;
 use DomainException;
 use LogicException;
 use Throwable;

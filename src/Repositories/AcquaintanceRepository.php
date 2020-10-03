@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Podium\ActiveRecordApi\repositories;
 
 use Podium\ActiveRecordApi\ActiveRecords\AcquaintanceActiveRecord;
-use Podium\ActiveRecordApi\enums\AcquaintanceType;
-use Podium\ActiveRecordApi\interfaces\AcquaintanceRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;
+use Podium\ActiveRecordApi\Enums\AcquaintanceType;
+use Podium\Api\Interfaces\AcquaintanceRepositoryInterface;
+use Podium\Api\Interfaces\MemberRepositoryInterface;
 use DomainException;
 use LogicException;
 use Throwable;

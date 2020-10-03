@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Podium\ActiveRecordApi\repositories;
 
 use Podium\ActiveRecordApi\ActiveRecords\MessageParticipantActiveRecord;
-use Podium\ActiveRecordApi\enums\MessageSide;
-use Podium\ActiveRecordApi\enums\MessageStatus;
-use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\MessageParticipantRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\MessageRepositoryInterface;
+use Podium\ActiveRecordApi\Enums\MessageSide;
+use Podium\ActiveRecordApi\Enums\MessageStatus;
+use Podium\Api\Interfaces\MemberRepositoryInterface;
+use Podium\Api\Interfaces\MessageParticipantRepositoryInterface;
+use Podium\Api\Interfaces\MessageRepositoryInterface;
 use DomainException;
 use LogicException;
 use Throwable;

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Podium\ActiveRecordApi\repositories;
 
 use Podium\ActiveRecordApi\ActiveRecords\ThumbActiveRecord;
-use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\PostRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\ThumbRepositoryInterface;
+use Podium\Api\Interfaces\MemberRepositoryInterface;
+use Podium\Api\Interfaces\PostRepositoryInterface;
+use Podium\Api\Interfaces\ThumbRepositoryInterface;
 use DomainException;
 use LogicException;
 use Throwable;

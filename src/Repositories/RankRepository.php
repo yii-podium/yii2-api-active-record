@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Podium\ActiveRecordApi\repositories;
 
 use Podium\ActiveRecordApi\ActiveRecords\RankActiveRecord;
-use Podium\ActiveRecordApi\interfaces\RankRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\RepositoryInterface;
+use Podium\Api\Interfaces\RankRepositoryInterface;
+use Podium\Api\Interfaces\RepositoryInterface;
 use LogicException;
 use yii\base\NotSupportedException;
 

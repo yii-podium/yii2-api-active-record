@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Podium\ActiveRecordApi\repositories;
 
 use Podium\ActiveRecordApi\ActiveRecords\GroupMemberActiveRecord;
-use Podium\ActiveRecordApi\interfaces\GroupMemberRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\GroupRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\RepositoryInterface;
+use Podium\Api\Interfaces\GroupMemberRepositoryInterface;
+use Podium\Api\Interfaces\GroupRepositoryInterface;
+use Podium\Api\Interfaces\MemberRepositoryInterface;
+use Podium\Api\Interfaces\RepositoryInterface;
 use DomainException;
 use LogicException;
 use Throwable;

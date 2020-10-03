@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Podium\ActiveRecordApi\repositories;
 
 use Podium\ActiveRecordApi\ActiveRecords\ForumActiveRecord;
-use Podium\ActiveRecordApi\interfaces\ActiveRecordRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\CategoryRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\ForumRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\RepositoryInterface;
+use Podium\Api\Interfaces\ActiveRecordRepositoryInterface;
+use Podium\Api\Interfaces\CategoryRepositoryInterface;
+use Podium\Api\Interfaces\ForumRepositoryInterface;
+use Podium\Api\Interfaces\MemberRepositoryInterface;
+use Podium\Api\Interfaces\RepositoryInterface;
 use DomainException;
 use LogicException;
 use yii\db\ActiveRecord;

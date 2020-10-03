@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Podium\ActiveRecordApi\repositories;
 
 use Podium\ActiveRecordApi\ActiveRecords\PollVoteActiveRecord;
-use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\PollAnswerRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\PollRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\PollVoteRepositoryInterface;
+use Podium\Api\Interfaces\MemberRepositoryInterface;
+use Podium\Api\Interfaces\PollAnswerRepositoryInterface;
+use Podium\Api\Interfaces\PollRepositoryInterface;
+use Podium\Api\Interfaces\PollVoteRepositoryInterface;
 use DomainException;
 use LogicException;
 

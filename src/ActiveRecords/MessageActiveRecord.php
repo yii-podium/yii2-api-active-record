@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\ActiveRecords;
 
-use Podium\ActiveRecordApi\enums\MessageSide;
+use Podium\ActiveRecordApi\Enums\MessageSide;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;

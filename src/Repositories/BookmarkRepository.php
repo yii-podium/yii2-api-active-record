@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Podium\ActiveRecordApi\repositories;
 
 use Podium\ActiveRecordApi\ActiveRecords\BookmarkActiveRecord;
-use Podium\ActiveRecordApi\interfaces\BookmarkRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\ThreadRepositoryInterface;
+use Podium\Api\Interfaces\BookmarkRepositoryInterface;
+use Podium\Api\Interfaces\MemberRepositoryInterface;
+use Podium\Api\Interfaces\ThreadRepositoryInterface;
 use DomainException;
 use LogicException;
 

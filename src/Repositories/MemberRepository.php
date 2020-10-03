@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Podium\ActiveRecordApi\repositories;
 
 use Podium\ActiveRecordApi\ActiveRecords\MemberActiveRecord;
-use Podium\ActiveRecordApi\enums\MemberStatus;
-use Podium\ActiveRecordApi\interfaces\MemberRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\RepositoryInterface;
+use Podium\ActiveRecordApi\Enums\MemberStatus;
+use Podium\Api\Interfaces\MemberRepositoryInterface;
+use Podium\Api\Interfaces\RepositoryInterface;
 use LogicException;
 use yii\base\NotSupportedException;
 use yii\helpers\Json;

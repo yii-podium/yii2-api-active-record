@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Podium\ActiveRecordApi\repositories;
 
 use Podium\ActiveRecordApi\ActiveRecords\PollAnswerActiveRecord;
-use Podium\ActiveRecordApi\interfaces\PollAnswerRepositoryInterface;
-use Podium\ActiveRecordApi\interfaces\PollRepositoryInterface;
+use Podium\Api\Interfaces\PollAnswerRepositoryInterface;
+use Podium\Api\Interfaces\PollRepositoryInterface;
 use DomainException;
 use LogicException;
 
