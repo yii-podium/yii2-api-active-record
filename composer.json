@@ -1,7 +1,7 @@
 {
   "name": "yii-podium/yii2-api-active-record",
   "type": "yii2-extension",
-  "description": "Yii 2 Forum Module API With Active Record.",
+  "description": "Yii 2 Forum Module API With Active Records.",
   "keywords": ["forum", "yii2", "extension", "podium", "module", "api", "bizley"],
   "license": "Apache-2.0",
   "support": {
