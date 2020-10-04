@@ -16,7 +16,7 @@
   ],
   "minimum-stability": "stable",
   "require": {
-    "yii-podium/yii2-api": "^0.1"
+    "yii-podium/yii2-api": "dev-master"
   },
   "require-dev": {
     "infection/infection": "*",
