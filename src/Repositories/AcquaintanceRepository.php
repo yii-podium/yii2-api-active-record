@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\repositories;
+namespace Podium\ActiveRecordApi\Repositories;
 
+use DomainException;
+use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\AcquaintanceActiveRecord;
 use Podium\ActiveRecordApi\Enums\AcquaintanceType;
 use Podium\Api\Interfaces\AcquaintanceRepositoryInterface;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
-use DomainException;
-use LogicException;
 use Throwable;
 use yii\db\StaleObjectException;
 

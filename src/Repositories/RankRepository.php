@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\repositories;
+namespace Podium\ActiveRecordApi\Repositories;
 
+use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\RankActiveRecord;
 use Podium\Api\Interfaces\RankRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
-use LogicException;
 use yii\base\NotSupportedException;
 
 final class RankRepository implements RankRepositoryInterface

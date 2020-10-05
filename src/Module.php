@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi;
 
-use Podium\ActiveRecordApi\repositories\AcquaintanceRepository;
-use Podium\ActiveRecordApi\repositories\BookmarkRepository;
-use Podium\ActiveRecordApi\repositories\CategoryRepository;
-use Podium\ActiveRecordApi\repositories\ForumRepository;
-use Podium\ActiveRecordApi\repositories\GroupRepository;
-use Podium\ActiveRecordApi\repositories\MemberRepository;
-use Podium\ActiveRecordApi\repositories\MessageRepository;
-use Podium\ActiveRecordApi\repositories\PostRepository;
-use Podium\ActiveRecordApi\repositories\RankRepository;
-use Podium\ActiveRecordApi\repositories\SubscriptionRepository;
-use Podium\ActiveRecordApi\repositories\ThreadRepository;
-use Podium\ActiveRecordApi\repositories\ThumbRepository;
+use Podium\ActiveRecordApi\Repositories\AcquaintanceRepository;
+use Podium\ActiveRecordApi\Repositories\BookmarkRepository;
+use Podium\ActiveRecordApi\Repositories\CategoryRepository;
+use Podium\ActiveRecordApi\Repositories\ForumRepository;
+use Podium\ActiveRecordApi\Repositories\GroupRepository;
+use Podium\ActiveRecordApi\Repositories\LogRepository;
+use Podium\ActiveRecordApi\Repositories\MemberRepository;
+use Podium\ActiveRecordApi\Repositories\MessageRepository;
+use Podium\ActiveRecordApi\Repositories\PostRepository;
+use Podium\ActiveRecordApi\Repositories\RankRepository;
+use Podium\ActiveRecordApi\Repositories\SubscriptionRepository;
+use Podium\ActiveRecordApi\Repositories\ThreadRepository;
+use Podium\ActiveRecordApi\Repositories\ThumbRepository;
 use Podium\Api\Module as BasePodium;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -84,18 +85,14 @@ class Module extends BasePodium
 
     protected function prepareTranslations(): void
     {
-        Yii::$app->getI18n()->translations['podium.enum'] = [
+        $translationConfig = [
             'class' => PhpMessageSource::class,
             'sourceLanguage' => 'en',
             'forceTranslation' => true,
-            'basePath' => __DIR__.'/Messages',
+            'basePath' => __DIR__ . '/Messages',
         ];
-        Yii::$app->getI18n()->translations['podium.label'] = [
-            'class' => PhpMessageSource::class,
-            'sourceLanguage' => 'en',
-            'forceTranslation' => true,
-            'basePath' => __DIR__.'/Messages',
-        ];
+        Yii::$app->getI18n()->translations['podium.enum'] = $translationConfig;
+        Yii::$app->getI18n()->translations['podium.label'] = $translationConfig;
 
         parent::prepareTranslations();
     }

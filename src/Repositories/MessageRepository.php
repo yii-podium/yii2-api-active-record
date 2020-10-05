@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\repositories;
+namespace Podium\ActiveRecordApi\Repositories;
 
+use DomainException;
+use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\MessageActiveRecord;
 use Podium\ActiveRecordApi\Enums\MessageSide;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\MessageParticipantRepositoryInterface;
 use Podium\Api\Interfaces\MessageRepositoryInterface;
-use DomainException;
-use LogicException;
 
 use function is_int;
 

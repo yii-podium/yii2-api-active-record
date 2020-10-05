@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\repositories;
+namespace Podium\ActiveRecordApi\Repositories;
 
+use DomainException;
+use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\SubscriptionActiveRecord;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\SubscriptionRepositoryInterface;
 use Podium\Api\Interfaces\ThreadRepositoryInterface;
-use DomainException;
-use LogicException;
 use Throwable;
 use yii\db\StaleObjectException;
 

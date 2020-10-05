@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\repositories;
+namespace Podium\ActiveRecordApi\Repositories;
 
+use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\GroupActiveRecord;
 use Podium\Api\Interfaces\GroupRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
-use LogicException;
 use yii\base\NotSupportedException;
 
 final class GroupRepository implements GroupRepositoryInterface

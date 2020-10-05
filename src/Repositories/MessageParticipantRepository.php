@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\repositories;
+namespace Podium\ActiveRecordApi\Repositories;
 
+use DomainException;
+use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\MessageParticipantActiveRecord;
 use Podium\ActiveRecordApi\Enums\MessageSide;
 use Podium\ActiveRecordApi\Enums\MessageStatus;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\MessageParticipantRepositoryInterface;
 use Podium\Api\Interfaces\MessageRepositoryInterface;
-use DomainException;
-use LogicException;
 use Throwable;
 use yii\base\NotSupportedException;
 use yii\data\ActiveDataProvider;

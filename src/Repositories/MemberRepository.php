@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\repositories;
+namespace Podium\ActiveRecordApi\Repositories;
 
+use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\MemberActiveRecord;
 use Podium\ActiveRecordApi\Enums\MemberStatus;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
-use LogicException;
 use yii\base\NotSupportedException;
 use yii\helpers\Json;
 

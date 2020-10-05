@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\repositories;
+namespace Podium\ActiveRecordApi\Repositories;
 
+use DomainException;
+use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\ForumActiveRecord;
 use Podium\Api\Interfaces\ActiveRecordRepositoryInterface;
 use Podium\Api\Interfaces\CategoryRepositoryInterface;
 use Podium\Api\Interfaces\ForumRepositoryInterface;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
-use DomainException;
-use LogicException;
 use yii\db\ActiveRecord;
 
 use function is_int;

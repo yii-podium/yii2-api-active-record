@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\repositories;
+namespace Podium\ActiveRecordApi\Repositories;
 
+use DomainException;
+use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\GroupMemberActiveRecord;
 use Podium\Api\Interfaces\GroupMemberRepositoryInterface;
 use Podium\Api\Interfaces\GroupRepositoryInterface;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
-use DomainException;
-use LogicException;
 use Throwable;
 use yii\base\NotSupportedException;
 use yii\db\StaleObjectException;

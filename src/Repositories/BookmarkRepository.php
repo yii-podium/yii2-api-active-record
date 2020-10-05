@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\repositories;
+namespace Podium\ActiveRecordApi\Repositories;
 
+use DomainException;
+use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\BookmarkActiveRecord;
 use Podium\Api\Interfaces\BookmarkRepositoryInterface;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\ThreadRepositoryInterface;
-use DomainException;
-use LogicException;
 
 use function is_int;
 

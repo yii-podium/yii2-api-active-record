@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\repositories;
+namespace Podium\ActiveRecordApi\Repositories;
 
+use DomainException;
+use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\PollVoteActiveRecord;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\PollAnswerRepositoryInterface;
 use Podium\Api\Interfaces\PollRepositoryInterface;
 use Podium\Api\Interfaces\PollVoteRepositoryInterface;
-use DomainException;
-use LogicException;
 
 use function is_int;
 

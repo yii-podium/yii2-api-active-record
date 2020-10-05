@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\repositories;
+namespace Podium\ActiveRecordApi\Repositories;
 
+use DomainException;
+use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\CategoryActiveRecord;
 use Podium\Api\Interfaces\ActiveRecordRepositoryInterface;
 use Podium\Api\Interfaces\CategoryRepositoryInterface;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
-use DomainException;
-use LogicException;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 

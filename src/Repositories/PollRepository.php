@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Podium\ActiveRecordApi\repositories;
+namespace Podium\ActiveRecordApi\Repositories;
 
+use DomainException;
+use Exception;
+use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\PollActiveRecord;
 use Podium\ActiveRecordApi\Enums\PollAnswerAction;
 use Podium\ActiveRecordApi\Enums\PollChoice;
@@ -14,9 +17,6 @@ use Podium\Api\Interfaces\PollRepositoryInterface;
 use Podium\Api\Interfaces\PollVoteRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
 use Podium\Api\Interfaces\ThreadRepositoryInterface;
-use DomainException;
-use Exception;
-use LogicException;
 use yii\db\ActiveRecord;
 
 use function is_int;
