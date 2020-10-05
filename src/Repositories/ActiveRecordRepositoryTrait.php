@@ -51,11 +51,14 @@ trait ActiveRecordRepositoryTrait
     public function fetchOne($id): bool
     {
         $modelClass = $this->getActiveRecordClass();
+
         /** @var ActiveRecord $modelClass */
         $model = $modelClass::findOne($id);
+
         if (null === $model) {
             return false;
         }
+
         $this->setModel($model);
 
         return true;
@@ -71,24 +74,31 @@ trait ActiveRecordRepositoryTrait
     public function fetchAll($filter = null, $sort = null, $pagination = null): void
     {
         $modelClass = $this->getActiveRecordClass();
+
         /** @var ActiveRecord $modelClass */
         $query = $modelClass::find();
+
         if (null !== $filter) {
             if (!$filter instanceof DataFilter) {
                 throw new NotSupportedException('Only filters implementing yii\data\DataFilter are supported!');
             }
+
             $filterConditions = $filter->build();
             if (false !== $filterConditions) {
                 $query->andWhere($filterConditions);
             }
         }
+
         $dataProvider = new ActiveDataProvider(['query' => $query]);
+
         if (null !== $sort) {
             $dataProvider->setSort($sort);
         }
+
         if (null !== $pagination) {
             $dataProvider->setPagination($pagination);
         }
+
         $this->setCollection($dataProvider);
     }
 
@@ -104,6 +114,7 @@ trait ActiveRecordRepositoryTrait
     public function edit(array $data = []): bool
     {
         $model = $this->getModel();
+
         if (!$model->load($data, '')) {
             return false;
         }

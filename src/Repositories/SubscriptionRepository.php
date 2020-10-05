@@ -20,6 +20,7 @@ final class SubscriptionRepository implements SubscriptionRepositoryInterface
     public string $activeRecordClass = SubscriptionActiveRecord::class;
 
     private ?SubscriptionActiveRecord $model = null;
+
     private array $errors = [];
 
     public function getModel(): SubscriptionActiveRecord
@@ -31,7 +32,7 @@ final class SubscriptionRepository implements SubscriptionRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(?SubscriptionActiveRecord $activeRecord): void
+    public function setModel(SubscriptionActiveRecord $activeRecord): void
     {
         $this->model = $activeRecord;
     }
@@ -48,15 +49,14 @@ final class SubscriptionRepository implements SubscriptionRepositoryInterface
         }
 
         $modelClass = $this->activeRecordClass;
+
         /* @var SubscriptionActiveRecord $modelClass */
-        return $modelClass::find()
-            ->where(
-                [
-                    'member_id' => $memberId,
-                    'thread_id' => $threadId,
-                ]
-            )
-            ->exists();
+        return $modelClass::find()->where(
+            [
+                'member_id' => $memberId,
+                'thread_id' => $threadId,
+            ]
+        )->exists();
     }
 
     public function subscribe(MemberRepositoryInterface $member, ThreadRepositoryInterface $thread): bool
@@ -76,13 +76,15 @@ final class SubscriptionRepository implements SubscriptionRepositoryInterface
         $model->member_id = $memberId;
         $model->thread_id = $threadId;
 
-        if (!$model->validate()) {
+        if (!$model->save()) {
             $this->errors = $model->errors;
 
             return false;
         }
 
-        return $model->save(false);
+        $this->setModel($model);
+
+        return true;
     }
 
     public function fetchOne(MemberRepositoryInterface $member, ThreadRepositoryInterface $thread): bool
@@ -98,19 +100,20 @@ final class SubscriptionRepository implements SubscriptionRepositoryInterface
 
         /** @var SubscriptionActiveRecord $modelClass */
         $modelClass = $this->activeRecordClass;
+
         /** @var SubscriptionActiveRecord|null $model */
-        $model = $modelClass::find()
-            ->where(
-                [
-                    'member_id' => $memberId,
-                    'thread_id' => $threadId,
-                ]
-            )
-            ->one();
+        $model = $modelClass::find()->where(
+            [
+                'member_id' => $memberId,
+                'thread_id' => $threadId,
+            ]
+        )->one();
+
         if (null === $model) {
             return false;
         }
-        $this->model = $model;
+
+        $this->setModel($model);
 
         return true;
     }

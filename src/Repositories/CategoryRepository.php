@@ -7,7 +7,6 @@ namespace Podium\ActiveRecordApi\Repositories;
 use DomainException;
 use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\CategoryActiveRecord;
-use Podium\Api\Interfaces\ActiveRecordRepositoryInterface;
 use Podium\Api\Interfaces\CategoryRepositoryInterface;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
@@ -19,7 +18,7 @@ use function is_int;
 use const SORT_ASC;
 use const SORT_DESC;
 
-final class CategoryRepository implements CategoryRepositoryInterface, ActiveRecordRepositoryInterface
+final class CategoryRepository implements CategoryRepositoryInterface
 {
     use ActiveRecordRepositoryTrait;
 
@@ -72,6 +71,7 @@ final class CategoryRepository implements CategoryRepositoryInterface, ActiveRec
 
         /** @var CategoryActiveRecord $category */
         $category = new $this->activeRecordClass();
+
         if (!$category->load($data, '')) {
             return false;
         }
@@ -79,16 +79,15 @@ final class CategoryRepository implements CategoryRepositoryInterface, ActiveRec
         if (null === $category->sort) {
             /** @var CategoryActiveRecord $categoryClass */
             $categoryClass = $this->activeRecordClass;
+
             /** @var CategoryActiveRecord|null $lastCategory */
-            $lastCategory = $categoryClass::find()
-                ->orderBy(
-                    [
-                        'sort' => SORT_DESC,
-                        'name' => SORT_DESC,
-                    ]
-                )
-                ->limit(1)
-                ->one();
+            $lastCategory = $categoryClass::find()->orderBy(
+                [
+                    'sort' => SORT_DESC,
+                    'name' => SORT_DESC,
+                ]
+            )->limit(1)->one();
+
             if ($lastCategory) {
                 $category->sort = $lastCategory->sort + 1;
             } else {
@@ -117,7 +116,9 @@ final class CategoryRepository implements CategoryRepositoryInterface, ActiveRec
     public function archive(): bool
     {
         $category = $this->getModel();
+
         $category->archived = true;
+
         if (!$category->validate()) {
             $this->errors = $category->errors;
 
@@ -130,7 +131,9 @@ final class CategoryRepository implements CategoryRepositoryInterface, ActiveRec
     public function revive(): bool
     {
         $category = $this->getModel();
+
         $category->archived = false;
+
         if (!$category->validate()) {
             $this->errors = $category->errors;
 
@@ -143,7 +146,9 @@ final class CategoryRepository implements CategoryRepositoryInterface, ActiveRec
     public function setOrder(int $order): bool
     {
         $category = $this->getModel();
+
         $category->sort = $order;
+
         if (!$category->validate()) {
             $this->errors = $category->errors;
 
@@ -162,17 +167,20 @@ final class CategoryRepository implements CategoryRepositoryInterface, ActiveRec
     {
         /** @var CategoryActiveRecord $categoryClass */
         $categoryClass = $this->activeRecordClass;
-        $categories = $categoryClass::find()
-            ->orderBy(
-                [
-                    'sort' => SORT_ASC,
-                    'name' => SORT_ASC,
-                ]
-            );
+
+        $categories = $categoryClass::find()->orderBy(
+            [
+                'sort' => SORT_ASC,
+                'name' => SORT_ASC,
+            ]
+        );
+
         $sortOrder = 0;
+
         /** @var CategoryActiveRecord $category */
         foreach ($categories->each() as $category) {
             $category->sort = $sortOrder++;
+
             if (!$category->save()) {
                 return false;
             }

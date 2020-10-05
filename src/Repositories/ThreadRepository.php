@@ -7,7 +7,6 @@ namespace Podium\ActiveRecordApi\Repositories;
 use DomainException;
 use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\ThreadActiveRecord;
-use Podium\Api\Interfaces\ActiveRecordRepositoryInterface;
 use Podium\Api\Interfaces\ForumRepositoryInterface;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
@@ -16,7 +15,7 @@ use yii\db\ActiveRecord;
 
 use function is_int;
 
-final class ThreadRepository implements ThreadRepositoryInterface, ActiveRecordRepositoryInterface
+final class ThreadRepository implements ThreadRepositoryInterface
 {
     use ActiveRecordRepositoryTrait;
 
@@ -55,6 +54,7 @@ final class ThreadRepository implements ThreadRepositoryInterface, ActiveRecordR
     public function getParent(): RepositoryInterface
     {
         $forumRepository = $this->getModel()->forum;
+
         $parent = new ForumRepository();
         $parent->setModel($forumRepository);
 
@@ -84,6 +84,7 @@ final class ThreadRepository implements ThreadRepositoryInterface, ActiveRecordR
 
         /** @var ThreadActiveRecord $thread */
         $thread = new $this->activeRecordClass();
+
         if (!$thread->load($data, '')) {
             return false;
         }
@@ -105,7 +106,9 @@ final class ThreadRepository implements ThreadRepositoryInterface, ActiveRecordR
     public function pin(): bool
     {
         $thread = $this->getModel();
+
         $thread->pinned = true;
+
         if (!$thread->validate()) {
             $this->errors = $thread->errors;
 
@@ -118,7 +121,9 @@ final class ThreadRepository implements ThreadRepositoryInterface, ActiveRecordR
     public function unpin(): bool
     {
         $thread = $this->getModel();
+
         $thread->pinned = false;
+
         if (!$thread->validate()) {
             $this->errors = $thread->errors;
 
@@ -151,7 +156,9 @@ final class ThreadRepository implements ThreadRepositoryInterface, ActiveRecordR
     public function lock(): bool
     {
         $thread = $this->getModel();
+
         $thread->locked = true;
+
         if (!$thread->validate()) {
             $this->errors = $thread->errors;
 
@@ -164,7 +171,9 @@ final class ThreadRepository implements ThreadRepositoryInterface, ActiveRecordR
     public function unlock(): bool
     {
         $thread = $this->getModel();
+
         $thread->locked = false;
+
         if (!$thread->validate()) {
             $this->errors = $thread->errors;
 
@@ -177,7 +186,9 @@ final class ThreadRepository implements ThreadRepositoryInterface, ActiveRecordR
     public function archive(): bool
     {
         $thread = $this->getModel();
+
         $thread->archived = true;
+
         if (!$thread->validate()) {
             $this->errors = $thread->errors;
 
@@ -190,7 +201,9 @@ final class ThreadRepository implements ThreadRepositoryInterface, ActiveRecordR
     public function revive(): bool
     {
         $thread = $this->getModel();
+
         $thread->archived = false;
+
         if (!$thread->validate()) {
             $this->errors = $thread->errors;
 

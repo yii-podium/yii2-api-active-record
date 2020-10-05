@@ -20,6 +20,7 @@ final class AcquaintanceRepository implements AcquaintanceRepositoryInterface
     public string $activeRecordClass = AcquaintanceActiveRecord::class;
 
     private ?AcquaintanceActiveRecord $model = null;
+
     private array $errors = [];
 
     public function getModel(): AcquaintanceActiveRecord
@@ -31,7 +32,7 @@ final class AcquaintanceRepository implements AcquaintanceRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(?AcquaintanceActiveRecord $activeRecord): void
+    public function setModel(AcquaintanceActiveRecord $activeRecord): void
     {
         $this->model = $activeRecord;
     }
@@ -50,18 +51,18 @@ final class AcquaintanceRepository implements AcquaintanceRepositoryInterface
         /** @var AcquaintanceActiveRecord $modelClass */
         $modelClass = $this->activeRecordClass;
         /** @var AcquaintanceActiveRecord|null $model */
-        $model = $modelClass::find()
-            ->where(
-                [
-                    'member_id' => $memberId,
-                    'target_id' => $targetId,
-                ]
-            )
-            ->one();
+        $model = $modelClass::find()->where(
+            [
+                'member_id' => $memberId,
+                'target_id' => $targetId,
+            ]
+        )->one();
+
         if (null === $model) {
             return false;
         }
-        $this->model = $model;
+
+        $this->setModel($model);
 
         return true;
     }
@@ -83,7 +84,7 @@ final class AcquaintanceRepository implements AcquaintanceRepositoryInterface
         $acquaintance->member_id = $memberId;
         $acquaintance->target_id = $targetId;
 
-        $this->model = $acquaintance;
+        $this->setModel($acquaintance);
     }
 
     public function getErrors(): array
@@ -103,7 +104,9 @@ final class AcquaintanceRepository implements AcquaintanceRepositoryInterface
     public function befriend(): bool
     {
         $acquaintance = $this->getModel();
+
         $acquaintance->type_id = AcquaintanceType::FRIEND;
+
         if (!$acquaintance->validate()) {
             $this->errors = $acquaintance->errors;
 
@@ -116,7 +119,9 @@ final class AcquaintanceRepository implements AcquaintanceRepositoryInterface
     public function ignore(): bool
     {
         $acquaintance = $this->getModel();
+
         $acquaintance->type_id = AcquaintanceType::IGNORE;
+
         if (!$acquaintance->validate()) {
             $this->errors = $acquaintance->errors;
 

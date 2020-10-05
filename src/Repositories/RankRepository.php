@@ -32,7 +32,7 @@ final class RankRepository implements RankRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(?RankActiveRecord $activeRecord): void
+    public function setModel(RankActiveRecord $activeRecord): void
     {
         $this->model = $activeRecord;
     }
@@ -54,6 +54,7 @@ final class RankRepository implements RankRepositoryInterface
     {
         /** @var RankActiveRecord $rank */
         $rank = new $this->activeRecordClass();
+
         if (!$rank->load($data, '')) {
             return false;
         }

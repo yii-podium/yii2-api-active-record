@@ -7,7 +7,6 @@ namespace Podium\ActiveRecordApi\Repositories;
 use DomainException;
 use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\PostActiveRecord;
-use Podium\Api\Interfaces\ActiveRecordRepositoryInterface;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\PostRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
@@ -16,7 +15,7 @@ use yii\db\ActiveRecord;
 
 use function is_int;
 
-final class PostRepository implements PostRepositoryInterface, ActiveRecordRepositoryInterface
+final class PostRepository implements PostRepositoryInterface
 {
     use ActiveRecordRepositoryTrait;
 
@@ -55,6 +54,7 @@ final class PostRepository implements PostRepositoryInterface, ActiveRecordRepos
     public function getParent(): RepositoryInterface
     {
         $threadRepository = $this->getModel()->thread;
+
         $parent = new ThreadRepository();
         $parent->setModel($threadRepository);
 
@@ -87,6 +87,7 @@ final class PostRepository implements PostRepositoryInterface, ActiveRecordRepos
 
         /** @var PostActiveRecord $post */
         $post = new $this->activeRecordClass();
+
         if (!$post->load($data, '')) {
             return false;
         }
@@ -168,7 +169,9 @@ final class PostRepository implements PostRepositoryInterface, ActiveRecordRepos
     public function pin(): bool
     {
         $post = $this->getModel();
+
         $post->pinned = true;
+
         if (!$post->validate()) {
             $this->errors = $post->errors;
 
@@ -181,7 +184,9 @@ final class PostRepository implements PostRepositoryInterface, ActiveRecordRepos
     public function unpin(): bool
     {
         $post = $this->getModel();
+
         $post->pinned = false;
+
         if (!$post->validate()) {
             $this->errors = $post->errors;
 

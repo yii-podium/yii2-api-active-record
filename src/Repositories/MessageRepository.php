@@ -36,7 +36,7 @@ final class MessageRepository implements MessageRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(?MessageActiveRecord $activeRecord): void
+    public function setModel(MessageActiveRecord $activeRecord): void
     {
         $this->model = $activeRecord;
     }
@@ -44,6 +44,7 @@ final class MessageRepository implements MessageRepositoryInterface
     public function getParent(): MessageRepositoryInterface
     {
         $message = $this->getModel()->replyTo;
+
         $parent = new self();
         $parent->setModel($message);
 
@@ -57,9 +58,13 @@ final class MessageRepository implements MessageRepositoryInterface
 
     public function getParticipant(MemberRepositoryInterface $member): MessageParticipantRepositoryInterface
     {
+        $memberId = $member->getId();
+        if (!is_int($memberId)) {
+            throw new DomainException('Invalid member ID!');
+        }
+
         $sender = $this->getModel()->sender;
         $receiver = $this->getModel()->receiver;
-        $memberId = $member->getId();
 
         $participant = new MessageParticipantRepository();
 
@@ -88,6 +93,7 @@ final class MessageRepository implements MessageRepositoryInterface
     ): bool {
         /** @var MessageActiveRecord $message */
         $message = new $this->activeRecordClass();
+
         if (!$message->load($data, '')) {
             return false;
         }
@@ -97,9 +103,11 @@ final class MessageRepository implements MessageRepositoryInterface
             if (!is_int($replyToId)) {
                 throw new DomainException('Invalid reply ID!');
             }
+
             if (!$replyTo->isProperReply($sender, $receiver)) {
                 return false;
             }
+
             $message->reply_to_id = $replyToId;
         }
 
@@ -139,5 +147,10 @@ final class MessageRepository implements MessageRepositoryInterface
             && $originalSender->member_id === $replyReceiver->getId()
             && $originalReceiver
             && $originalReceiver->member_id === $replySender->getId();
+    }
+
+    public function verifyParticipants(MemberRepositoryInterface $sender, MemberRepositoryInterface $receiver): bool
+    {
+        // TODO: Implement verifyParticipants() method.
     }
 }

@@ -19,7 +19,9 @@ final class PollVoteRepository implements PollVoteRepositoryInterface
     public string $activeRecordClass = PollVoteActiveRecord::class;
 
     private ?PollVoteActiveRecord $model = null;
+
     private PollRepositoryInterface $poll;
+
     private array $errors = [];
 
     public function __construct(PollRepositoryInterface $poll)
@@ -36,7 +38,7 @@ final class PollVoteRepository implements PollVoteRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(?PollVoteActiveRecord $activeRecord): void
+    public function setModel(PollVoteActiveRecord $activeRecord): void
     {
         $this->model = $activeRecord;
     }
@@ -60,14 +62,12 @@ final class PollVoteRepository implements PollVoteRepositoryInterface
         /** @var PollVoteActiveRecord $modelClass */
         $modelClass = $this->activeRecordClass;
 
-        return $modelClass::find()
-            ->where(
-                [
-                    'member_id' => $memberId,
-                    'poll_id' => $pollId,
-                ]
-            )
-            ->exists();
+        return $modelClass::find()->where(
+            [
+                'member_id' => $memberId,
+                'poll_id' => $pollId,
+            ]
+        )->exists();
     }
 
     public function register(MemberRepositoryInterface $member, PollAnswerRepositoryInterface $answer): bool
@@ -92,12 +92,14 @@ final class PollVoteRepository implements PollVoteRepositoryInterface
         $vote->answer_id = $answerId;
         $vote->poll_id = $pollId;
 
-        if (!$vote->validate()) {
+        if (!$vote->save()) {
             $this->errors = $vote->errors;
 
             return false;
         }
 
-        return $vote->save(false);
+        $this->setModel($vote);
+
+        return true;
     }
 }

@@ -7,7 +7,6 @@ namespace Podium\ActiveRecordApi\Repositories;
 use DomainException;
 use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\ForumActiveRecord;
-use Podium\Api\Interfaces\ActiveRecordRepositoryInterface;
 use Podium\Api\Interfaces\CategoryRepositoryInterface;
 use Podium\Api\Interfaces\ForumRepositoryInterface;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
@@ -16,7 +15,7 @@ use yii\db\ActiveRecord;
 
 use function is_int;
 
-final class ForumRepository implements ForumRepositoryInterface, ActiveRecordRepositoryInterface
+final class ForumRepository implements ForumRepositoryInterface
 {
     use ActiveRecordRepositoryTrait;
 
@@ -55,6 +54,7 @@ final class ForumRepository implements ForumRepositoryInterface, ActiveRecordRep
     public function getParent(): RepositoryInterface
     {
         $category = $this->getModel()->category;
+
         $parent = new CategoryRepository();
         $parent->setModel($category);
 
@@ -82,6 +82,7 @@ final class ForumRepository implements ForumRepositoryInterface, ActiveRecordRep
 
         /** @var ForumActiveRecord $forum */
         $forum = new $this->activeRecordClass();
+
         if (!$forum->load($data, '')) {
             return false;
         }
@@ -89,16 +90,15 @@ final class ForumRepository implements ForumRepositoryInterface, ActiveRecordRep
         if (null === $forum->sort) {
             /** @var ForumActiveRecord $forumClass */
             $forumClass = $this->activeRecordClass;
+
             /** @var ForumActiveRecord|null $lastForum */
-            $lastForum = $forumClass::find()
-                ->orderBy(
-                    [
-                        'sort' => SORT_DESC,
-                        'name' => SORT_DESC,
-                    ]
-                )
-                ->limit(1)
-                ->one();
+            $lastForum = $forumClass::find()->orderBy(
+                [
+                    'sort' => SORT_DESC,
+                    'name' => SORT_DESC,
+                ]
+            )->limit(1)->one();
+
             if ($lastForum) {
                 $forum->sort = $lastForum->sort + 1;
             } else {
@@ -123,7 +123,9 @@ final class ForumRepository implements ForumRepositoryInterface, ActiveRecordRep
     public function archive(): bool
     {
         $forum = $this->getModel();
+
         $forum->archived = true;
+
         if (!$forum->validate()) {
             $this->errors = $forum->errors;
 
@@ -136,7 +138,9 @@ final class ForumRepository implements ForumRepositoryInterface, ActiveRecordRep
     public function revive(): bool
     {
         $forum = $this->getModel();
+
         $forum->archived = false;
+
         if (!$forum->validate()) {
             $this->errors = $forum->errors;
 
@@ -159,7 +163,9 @@ final class ForumRepository implements ForumRepositoryInterface, ActiveRecordRep
     public function setOrder(int $order): bool
     {
         $forum = $this->getModel();
+
         $forum->sort = $order;
+
         if (!$forum->validate()) {
             $this->errors = $forum->errors;
 
@@ -178,17 +184,20 @@ final class ForumRepository implements ForumRepositoryInterface, ActiveRecordRep
     {
         /** @var ForumActiveRecord $forumClass */
         $forumClass = $this->activeRecordClass;
-        $forums = $forumClass::find()
-            ->orderBy(
-                [
-                    'sort' => SORT_ASC,
-                    'name' => SORT_ASC,
-                ]
-            );
+
+        $forums = $forumClass::find()->orderBy(
+            [
+                'sort' => SORT_ASC,
+                'name' => SORT_ASC,
+            ]
+        );
+
         $sortOrder = 0;
+
         /** @var ForumActiveRecord $forum */
         foreach ($forums->each() as $forum) {
             $forum->sort = $sortOrder++;
+
             if (!$forum->save()) {
                 return false;
             }

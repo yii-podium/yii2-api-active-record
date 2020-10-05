@@ -34,7 +34,7 @@ final class MemberRepository implements MemberRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(?MemberActiveRecord $activeRecord): void
+    public function setModel(MemberActiveRecord $activeRecord): void
     {
         $this->model = $activeRecord;
     }
@@ -59,6 +59,7 @@ final class MemberRepository implements MemberRepositoryInterface
     {
         /** @var MemberActiveRecord $member */
         $member = new $this->activeRecordClass();
+
         if (!$member->load($data, '')) {
             return false;
         }
@@ -75,19 +76,6 @@ final class MemberRepository implements MemberRepositoryInterface
         $this->setModel($member);
 
         return true;
-    }
-
-    public function activate(): bool
-    {
-        $member = $this->getModel();
-        $member->status_id = MemberStatus::ACTIVE;
-        if (!$member->validate()) {
-            $this->errors = $member->errors;
-
-            return false;
-        }
-
-        return $member->save(false);
     }
 
     public function ban(): bool
@@ -114,5 +102,15 @@ final class MemberRepository implements MemberRepositoryInterface
         }
 
         return $member->save(false);
+    }
+
+    public function isBanned(): bool
+    {
+        // TODO: Implement isBanned() method.
+    }
+
+    public function isIgnoring(MemberRepositoryInterface $member): bool
+    {
+        // TODO: Implement isIgnoring() method.
     }
 }

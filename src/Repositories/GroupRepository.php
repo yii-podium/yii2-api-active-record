@@ -6,15 +6,22 @@ namespace Podium\ActiveRecordApi\Repositories;
 
 use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\GroupActiveRecord;
+use Podium\Api\Interfaces\GroupMemberRepositoryInterface;
 use Podium\Api\Interfaces\GroupRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
 use yii\base\NotSupportedException;
+use yii\di\Instance;
 
 final class GroupRepository implements GroupRepositoryInterface
 {
     use ActiveRecordRepositoryTrait;
 
     public string $activeRecordClass = GroupActiveRecord::class;
+
+    /**
+     * @var string|array|GroupMemberRepositoryInterface
+     */
+    public $groupMemberRepositoryConfig = GroupMemberRepository::class;
 
     private ?GroupActiveRecord $model = null;
 
@@ -32,7 +39,7 @@ final class GroupRepository implements GroupRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(?GroupActiveRecord $activeRecord): void
+    public function setModel(GroupActiveRecord $activeRecord): void
     {
         $this->model = $activeRecord;
     }
@@ -54,6 +61,7 @@ final class GroupRepository implements GroupRepositoryInterface
     {
         /** @var GroupActiveRecord $group */
         $group = new $this->activeRecordClass();
+
         if (!$group->load($data, '')) {
             return false;
         }
@@ -67,5 +75,18 @@ final class GroupRepository implements GroupRepositoryInterface
         $this->setModel($group);
 
         return true;
+    }
+
+    private ?GroupMemberRepositoryInterface $groupMemberRepository = null;
+
+    public function getGroupMember(): GroupMemberRepositoryInterface
+    {
+        if (null === $this->groupMemberRepository) {
+            /** @var GroupMemberRepositoryInterface $repository */
+            $repository = Instance::ensure($this->groupMemberRepositoryConfig, GroupMemberRepositoryInterface::class);
+            $this->groupMemberRepository = $repository;
+        }
+
+        return $this->groupMemberRepository;
     }
 }

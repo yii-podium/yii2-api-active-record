@@ -20,6 +20,7 @@ final class ThumbRepository implements ThumbRepositoryInterface
     public string $activeRecordClass = ThumbActiveRecord::class;
 
     private ?ThumbActiveRecord $model = null;
+
     private array $errors = [];
 
     public function getModel(): ThumbActiveRecord
@@ -31,7 +32,7 @@ final class ThumbRepository implements ThumbRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(?ThumbActiveRecord $activeRecord): void
+    public function setModel(ThumbActiveRecord $activeRecord): void
     {
         $this->model = $activeRecord;
     }
@@ -70,19 +71,20 @@ final class ThumbRepository implements ThumbRepositoryInterface
 
         /** @var ThumbActiveRecord $modelClass */
         $modelClass = $this->activeRecordClass;
+
         /** @var ThumbActiveRecord|null $model */
-        $model = $modelClass::find()
-            ->where(
-                [
-                    'member_id' => $memberId,
-                    'post_id' => $postId,
-                ]
-            )
-            ->one();
+        $model = $modelClass::find()->where(
+            [
+                'member_id' => $memberId,
+                'post_id' => $postId,
+            ]
+        )->one();
+
         if (null === $model) {
             return false;
         }
-        $this->model = $model;
+
+        $this->setModel($model);
 
         return true;
     }
@@ -103,7 +105,7 @@ final class ThumbRepository implements ThumbRepositoryInterface
 
     public function isUp(): bool
     {
-        return 1 === $this->getModel()->thumb;
+        return 1 === $this->getModel()->thumb; // TODO Add Enum
     }
 
     public function isDown(): bool
@@ -114,7 +116,9 @@ final class ThumbRepository implements ThumbRepositoryInterface
     public function up(): bool
     {
         $thumb = $this->getModel();
+
         $thumb->thumb = 1;
+
         if (!$thumb->validate()) {
             $this->errors = $thumb->errors;
 
@@ -127,7 +131,9 @@ final class ThumbRepository implements ThumbRepositoryInterface
     public function down(): bool
     {
         $thumb = $this->getModel();
+
         $thumb->thumb = -1;
+
         if (!$thumb->validate()) {
             $this->errors = $thumb->errors;
         }

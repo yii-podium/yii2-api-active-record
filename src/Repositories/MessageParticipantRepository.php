@@ -28,7 +28,9 @@ final class MessageParticipantRepository implements MessageParticipantRepository
     public string $activeRecordClass = MessageParticipantActiveRecord::class;
 
     private ?MessageParticipantActiveRecord $model = null;
+
     private array $errors = [];
+
     private ?ActiveDataProvider $collection = null;
 
     public function getModel(): MessageParticipantActiveRecord
@@ -40,7 +42,7 @@ final class MessageParticipantRepository implements MessageParticipantRepository
         return $this->model;
     }
 
-    public function setModel(?MessageParticipantActiveRecord $activeRecord): void
+    public function setModel(MessageParticipantActiveRecord $activeRecord): void
     {
         $this->model = $activeRecord;
     }
@@ -67,16 +69,19 @@ final class MessageParticipantRepository implements MessageParticipantRepository
         }
 
         $modelClass = $this->activeRecordClass;
+
         /** @var MessageParticipantActiveRecord $modelClass */
-        $model = $modelClass::findOne(
+        $model = $modelClass::find()->where(
             [
                 'message_id' => $messageId,
                 'member_id' => $memberId,
             ]
-        );
+        )->one();
+
         if (null === $model) {
             return false;
         }
+
         $this->setModel($model);
 
         return true;
@@ -92,24 +97,31 @@ final class MessageParticipantRepository implements MessageParticipantRepository
     public function fetchAll($filter = null, $sort = null, $pagination = null): void
     {
         $modelClass = $this->activeRecordClass;
+
         /** @var MessageParticipantActiveRecord $modelClass */
         $query = $modelClass::find();
+
         if (null !== $filter) {
             if (!$filter instanceof DataFilter) {
                 throw new NotSupportedException('Only filters implementing yii\data\DataFilter are supported!');
             }
+
             $filterConditions = $filter->build();
             if (false !== $filterConditions) {
                 $query->andWhere($filterConditions);
             }
         }
+
         $dataProvider = new ActiveDataProvider(['query' => $query]);
+
         if (null !== $sort) {
             $dataProvider->setSort($sort);
         }
+
         if (null !== $pagination) {
             $dataProvider->setPagination($pagination);
         }
+
         $this->setCollection($dataProvider);
     }
 
@@ -130,6 +142,7 @@ final class MessageParticipantRepository implements MessageParticipantRepository
     public function edit(array $data = []): bool
     {
         $model = $this->getModel();
+
         if (!$model->load($data, '')) {
             return false;
         }
@@ -146,6 +159,7 @@ final class MessageParticipantRepository implements MessageParticipantRepository
     public function getParent(): MessageRepositoryInterface
     {
         $message = $this->getModel()->message;
+
         $parent = new MessageRepository();
         $parent->setModel($message);
 
@@ -160,7 +174,9 @@ final class MessageParticipantRepository implements MessageParticipantRepository
     public function archive(): bool
     {
         $messageSide = $this->getModel();
+
         $messageSide->archived = true;
+
         if (!$messageSide->validate()) {
             $this->errors = $messageSide->errors;
 
@@ -173,7 +189,9 @@ final class MessageParticipantRepository implements MessageParticipantRepository
     public function revive(): bool
     {
         $messageSide = $this->getModel();
+
         $messageSide->archived = false;
+
         if (!$messageSide->validate()) {
             $this->errors = $messageSide->errors;
 
@@ -206,6 +224,7 @@ final class MessageParticipantRepository implements MessageParticipantRepository
 
         /** @var MessageParticipantActiveRecord $model */
         $model = new $this->activeRecordClass();
+
         if (!$model->load($data, '')) {
             return false;
         }

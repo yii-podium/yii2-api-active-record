@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\ActiveRecordApi\Repositories;
 
+use DomainException;
 use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\LogActiveRecord;
 use Podium\Api\Interfaces\LogRepositoryInterface;
@@ -58,7 +59,30 @@ final class LogRepository implements LogRepositoryInterface
 
     public function create(MemberRepositoryInterface $author, string $action, array $data = []): bool
     {
-        // TODO: Implement create() method.
+        $authorId = $author->getId();
+        if (!is_int($authorId)) {
+            throw new DomainException('Invalid author ID!');
+        }
+
+        /** @var LogActiveRecord $log */
+        $log = new $this->activeRecordClass();
+
+        if (!$log->load($data, '')) {
+            return false;
+        }
+
+        $log->action = $action;
+        $log->member_id = $authorId;
+
+        if (!$log->save()) {
+            $this->errors = $log->errors;
+
+            return false;
+        }
+
+        $this->setModel($log);
+
+        return true;
     }
 
     public function getId(): int
@@ -72,5 +96,13 @@ final class LogRepository implements LogRepositoryInterface
     public function getParent(): RepositoryInterface
     {
         throw new NotSupportedException('Log does not have parent!');
+    }
+
+    /**
+     * @throws NotSupportedException
+     */
+    public function edit(array $data = []): bool
+    {
+        throw new NotSupportedException('Log does not support editing!');
     }
 }

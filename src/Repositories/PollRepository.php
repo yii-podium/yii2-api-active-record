@@ -10,7 +10,6 @@ use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\PollActiveRecord;
 use Podium\ActiveRecordApi\Enums\PollAnswerAction;
 use Podium\ActiveRecordApi\Enums\PollChoice;
-use Podium\Api\Interfaces\ActiveRecordRepositoryInterface;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\PollAnswerRepositoryInterface;
 use Podium\Api\Interfaces\PollRepositoryInterface;
@@ -22,7 +21,7 @@ use yii\db\ActiveRecord;
 use function is_int;
 use function is_string;
 
-final class PollRepository implements PollRepositoryInterface, ActiveRecordRepositoryInterface
+final class PollRepository implements PollRepositoryInterface
 {
     use ActiveRecordRepositoryTrait;
 
@@ -60,32 +59,16 @@ final class PollRepository implements PollRepositoryInterface, ActiveRecordRepos
 
     public function getParent(): RepositoryInterface
     {
-        $threadModel = $this->getModel()->thread;
-        $parent = new ThreadRepository();
-        $parent->setModel($threadModel);
+        $postModel = $this->getModel()->post;
+
+        $parent = new PostRepository();
+        $parent->setModel($postModel);
 
         return $parent;
     }
 
-    public function isArchived(): bool
+    public function create(array $data, array $answers = []): bool
     {
-        return $this->getModel()->archived;
-    }
-
-    public function create(
-        MemberRepositoryInterface $author,
-        ThreadRepositoryInterface $thread,
-        array $data,
-        array $answers = []
-    ): bool {
-        $authorId = $author->getId();
-        if (!is_int($authorId)) {
-            throw new DomainException('Invalid author ID!');
-        }
-        $threadId = $thread->getId();
-        if (!is_int($threadId)) {
-            throw new DomainException('Invalid thread ID!');
-        }
 
         /** @var PollActiveRecord $poll */
         $poll = new $this->activeRecordClass();
@@ -184,32 +167,6 @@ final class PollRepository implements PollRepositoryInterface, ActiveRecordRepos
         return $poll->save(false);
     }
 
-    public function archive(): bool
-    {
-        $poll = $this->getModel();
-        $poll->archived = true;
-        if (!$poll->validate()) {
-            $this->errors = $poll->errors;
-
-            return false;
-        }
-
-        return $poll->save(false);
-    }
-
-    public function revive(): bool
-    {
-        $poll = $this->getModel();
-        $poll->archived = false;
-        if (!$poll->validate()) {
-            $this->errors = $poll->errors;
-
-            return false;
-        }
-
-        return $poll->save(false);
-    }
-
     private ?PollAnswerRepositoryInterface $pollAnswerRepository = null;
 
     public function getAnswerRepository(): PollAnswerRepositoryInterface
@@ -284,5 +241,10 @@ final class PollRepository implements PollRepositoryInterface, ActiveRecordRepos
         }
 
         return $poll->save(false);
+    }
+
+    public function areAnswersAcceptable(array $answers): bool
+    {
+        // TODO: Implement areAnswersAcceptable() method.
     }
 }

@@ -18,6 +18,7 @@ final class BookmarkRepository implements BookmarkRepositoryInterface
     public string $activeRecordClass = BookmarkActiveRecord::class;
 
     private array $errors = [];
+
     private ?BookmarkActiveRecord $model = null;
 
     public function getModel(): BookmarkActiveRecord
@@ -29,7 +30,7 @@ final class BookmarkRepository implements BookmarkRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(?BookmarkActiveRecord $activeRecord): void
+    public function setModel(BookmarkActiveRecord $activeRecord): void
     {
         $this->model = $activeRecord;
     }
@@ -47,19 +48,20 @@ final class BookmarkRepository implements BookmarkRepositoryInterface
 
         /** @var BookmarkActiveRecord $modelClass */
         $modelClass = $this->activeRecordClass;
+
         /** @var BookmarkActiveRecord|null $model */
-        $model = $modelClass::find()
-            ->where(
-                [
-                    'member_id' => $memberId,
-                    'thread_id' => $threadId,
-                ]
-            )
-            ->one();
+        $model = $modelClass::find()->where(
+            [
+                'member_id' => $memberId,
+                'thread_id' => $threadId,
+            ]
+        )->one();
+
         if (null === $model) {
             return false;
         }
-        $this->model = $model;
+
+        $this->setModel($model);
 
         return true;
     }
@@ -86,7 +88,7 @@ final class BookmarkRepository implements BookmarkRepositoryInterface
         $model->member_id = $memberId;
         $model->thread_id = $threadId;
 
-        $this->model = $model;
+        $this->setModel($model);
     }
 
     public function getLastSeen(): ?int
@@ -97,6 +99,7 @@ final class BookmarkRepository implements BookmarkRepositoryInterface
     public function mark(int $timeMark): bool
     {
         $bookmark = $this->getModel();
+
         $bookmark->last_seen = $timeMark;
 
         if (!$bookmark->save()) {

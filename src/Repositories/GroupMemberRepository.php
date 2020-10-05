@@ -12,7 +12,6 @@ use Podium\Api\Interfaces\GroupRepositoryInterface;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
 use Throwable;
-use yii\base\NotSupportedException;
 use yii\db\StaleObjectException;
 
 use function is_int;
@@ -22,6 +21,7 @@ final class GroupMemberRepository implements GroupMemberRepositoryInterface
     public string $activeRecordClass = GroupMemberActiveRecord::class;
 
     private ?GroupMemberActiveRecord $model = null;
+
     private array $errors = [];
 
     public function getModel(): GroupMemberActiveRecord
@@ -33,17 +33,19 @@ final class GroupMemberRepository implements GroupMemberRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(?GroupMemberActiveRecord $activeRecord): void
+    public function setModel(GroupMemberActiveRecord $activeRecord): void
     {
         $this->model = $activeRecord;
     }
 
-    /**
-     * @throws NotSupportedException
-     */
     public function getParent(): RepositoryInterface
     {
-        throw new NotSupportedException('Group does not have parent!');
+        $group = $this->getModel()->group;
+
+        $parent = new GroupRepository();
+        $parent->setModel($group);
+
+        return $parent;
     }
 
     public function create(GroupRepositoryInterface $group, MemberRepositoryInterface $member, array $data = []): bool
@@ -59,6 +61,7 @@ final class GroupMemberRepository implements GroupMemberRepositoryInterface
 
         /** @var GroupMemberActiveRecord $groupMember */
         $groupMember = new $this->activeRecordClass();
+
         if (!$groupMember->load($data, '')) {
             return false;
         }
@@ -89,16 +92,19 @@ final class GroupMemberRepository implements GroupMemberRepositoryInterface
         }
 
         $modelClass = $this->activeRecordClass;
+
         /** @var GroupMemberActiveRecord $modelClass */
-        $model = $modelClass::findOne(
+        $model = $modelClass::find()->where(
             [
                 'group_id' => $groupId,
                 'member_id' => $memberId,
             ]
-        );
+        )->one();
+
         if (null === $model) {
             return false;
         }
+
         $this->setModel($model);
 
         return true;

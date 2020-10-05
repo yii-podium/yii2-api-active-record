@@ -36,7 +36,7 @@ final class PollAnswerRepository implements PollAnswerRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(?PollAnswerActiveRecord $activeRecord): void
+    public function setModel(PollAnswerActiveRecord $activeRecord): void
     {
         $this->model = $activeRecord;
     }
@@ -65,15 +65,14 @@ final class PollAnswerRepository implements PollAnswerRepositoryInterface
         }
 
         $modelClass = $this->activeRecordClass;
+
         /* @var PollAnswerActiveRecord $modelClass */
-        return $modelClass::find()
-            ->where(
-                [
-                    'id' => $id,
-                    'poll_id' => $pollId,
-                ]
-            )
-            ->exists();
+        return $modelClass::find()->where(
+            [
+                'id' => $id,
+                'poll_id' => $pollId,
+            ]
+        )->exists();
     }
 
     public function create(string $answer): bool
@@ -89,13 +88,9 @@ final class PollAnswerRepository implements PollAnswerRepositoryInterface
         $model->poll_id = $pollId;
         $model->answer = $answer;
 
-        if (!$model->validate()) {
+        if (!$model->save()) {
             $this->errors = $model->errors;
 
-            return false;
-        }
-
-        if (!$model->save(false)) {
             return false;
         }
 
@@ -112,6 +107,7 @@ final class PollAnswerRepository implements PollAnswerRepositoryInterface
         if (!is_int($id)) {
             throw new DomainException('Invalid answer ID!');
         }
+
         $pollId = $this->poll->getId();
         if (!is_int($pollId)) {
             throw new DomainException('Invalid poll ID!');
@@ -144,15 +140,15 @@ final class PollAnswerRepository implements PollAnswerRepositoryInterface
 
         /** @var PollAnswerActiveRecord $modelClass */
         $modelClass = $this->activeRecordClass;
+
         /** @var PollAnswerActiveRecord|null $model */
-        $model = $modelClass::find()
-            ->where(
-                [
-                    'poll_id' => $pollId,
-                    'id' => $id,
-                ]
-            )
-            ->one();
+        $model = $modelClass::find()->where(
+            [
+                'poll_id' => $pollId,
+                'id' => $id,
+            ]
+        )->one();
+
         if (null === $model) {
             return false;
         }
