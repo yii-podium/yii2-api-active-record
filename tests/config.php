@@ -5,13 +5,10 @@
  */
 
 $config = [
-    'sqlite' => [
-        'dsn' => 'sqlite::memory:',
-    ],
     'mysql' => [
         'dsn' => 'mysql:host=127.0.0.1;dbname=podium',
         'username' => 'podium',
-        'password' => 'podium',
+        'password' => 'password',
         'charset' => 'utf8mb4',
     ],
 ];
