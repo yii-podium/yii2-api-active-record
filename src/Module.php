@@ -65,7 +65,7 @@ class Module extends BasePodium
                 'group' => ['repositoryConfig' => GroupRepository::class],
                 'logger' => ['repositoryConfig' => LogRepository::class],
                 'member' => [
-                    'repositoryConfig' => $memberRepository,
+                    'memberRepositoryConfig' => $memberRepository,
                     'acquaintanceRepositoryConfig' => AcquaintanceRepository::class,
                 ],
                 'message' => ['repositoryConfig' => MessageRepository::class],
