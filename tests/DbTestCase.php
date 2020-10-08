@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\Tests;
 
+use Podium\ActiveRecordApi\Module;
 use Yii;
 use yii\base\InvalidRouteException;
 use yii\console\Application;
@@ -21,11 +22,13 @@ use function ob_start;
 
 class DbTestCase extends AppTestCase
 {
-    protected static string $driverName = 'sqlite';
+    public ?Module $podium = null;
+
+    protected static string $driverName = 'mysql';
 
     protected static array $database = [];
 
-    protected static Connection $db;
+    protected static ?Connection $db = null;
 
     public static array $params = [];
 
@@ -36,6 +39,13 @@ class DbTestCase extends AppTestCase
         }
 
         return static::$params[$name] ?? $default;
+    }
+
+    protected function setUp(): void
+    {
+        /** @var Module $podium */
+        $podium = Yii::$app->podium;
+        $this->podium = $podium;
     }
 
     /**
@@ -76,6 +86,7 @@ class DbTestCase extends AppTestCase
                         ],
                     ],
                 ],
+                'podium' => Module::class,
             ],
         ], $config));
     }
