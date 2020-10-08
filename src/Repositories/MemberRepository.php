@@ -65,7 +65,7 @@ final class MemberRepository implements MemberRepositoryInterface
         }
 
         $member->user_id = Json::encode($id);
-        $member->status_id = MemberStatus::REGISTERED;
+        $member->status_id = MemberStatus::ACTIVE;
 
         if (!$member->save()) {
             $this->errors = $member->errors;
@@ -81,7 +81,9 @@ final class MemberRepository implements MemberRepositoryInterface
     public function ban(): bool
     {
         $member = $this->getModel();
+
         $member->status_id = MemberStatus::BANNED;
+
         if (!$member->validate()) {
             $this->errors = $member->errors;
 
@@ -94,7 +96,9 @@ final class MemberRepository implements MemberRepositoryInterface
     public function unban(): bool
     {
         $member = $this->getModel();
+
         $member->status_id = MemberStatus::ACTIVE;
+
         if (!$member->validate()) {
             $this->errors = $member->errors;
 
@@ -106,7 +110,7 @@ final class MemberRepository implements MemberRepositoryInterface
 
     public function isBanned(): bool
     {
-        // TODO: Implement isBanned() method.
+        return MemberStatus::BANNED === $this->getModel()->status_id;
     }
 
     public function isIgnoring(MemberRepositoryInterface $member): bool

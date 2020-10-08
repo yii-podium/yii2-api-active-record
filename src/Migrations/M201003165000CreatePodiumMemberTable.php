@@ -24,7 +24,7 @@ class M201003165000CreatePodiumMemberTable extends Migration
             'user_id' => $this->string(191)->notNull()->unique(),
             'username' => $this->string(191)->notNull()->unique(),
             'slug' => $this->string(191)->notNull()->unique(),
-            'status_id' => $this->string(45)->notNull()->defaultValue(MemberStatus::REGISTERED),
+            'status_id' => $this->string(45)->notNull()->defaultValue(MemberStatus::ACTIVE),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
         ], $tableOptions);
