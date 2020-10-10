@@ -10,6 +10,8 @@ use Podium\ActiveRecordApi\Repositories\MemberRepository;
 use Podium\Tests\DbTestCase;
 use Podium\Tests\Fixtures\MemberFixture;
 
+use function time;
+
 class MemberBanisherTest extends DbTestCase
 {
     protected function setUp(): void
@@ -37,6 +39,7 @@ class MemberBanisherTest extends DbTestCase
 
         $member = MemberActiveRecord::findOne(1);
         self::assertSame(MemberStatus::BANNED, $member->status_id);
+        self::assertEqualsWithDelta(time(), $member->updated_at, 10);
     }
 
     public function testUnbanning(): void
@@ -53,6 +56,7 @@ class MemberBanisherTest extends DbTestCase
 
         $member = MemberActiveRecord::findOne(2);
         self::assertSame(MemberStatus::ACTIVE, $member->status_id);
+        self::assertEqualsWithDelta(time(), $member->updated_at, 10);
     }
 
     public function testFailedBanning(): void

@@ -115,7 +115,7 @@ trait ActiveRecordRepositoryTrait
     {
         $model = $this->getModel();
 
-        if (!$model->load($data, '')) {
+        if ([] !== $data && !$model->load($data, '')) {
             return false;
         }
 

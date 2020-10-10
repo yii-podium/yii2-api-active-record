@@ -60,7 +60,7 @@ final class MemberRepository implements MemberRepositoryInterface
         /** @var MemberActiveRecord $member */
         $member = new $this->activeRecordClass();
 
-        if (!$member->load($data, '')) {
+        if ([] !== $data && !$member->load($data, '')) {
             return false;
         }
 
