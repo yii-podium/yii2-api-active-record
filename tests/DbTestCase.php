@@ -14,6 +14,7 @@ use yii\db\Connection;
 use yii\db\Exception as DbException;
 use yii\helpers\ArrayHelper;
 use yii\i18n\PhpMessageSource;
+use yii\test\FixtureTrait;
 
 use function fwrite;
 use function ob_end_clean;
@@ -22,6 +23,8 @@ use function ob_start;
 
 class DbTestCase extends AppTestCase
 {
+    use FixtureTrait;
+
     public ?Module $podium = null;
 
     protected static string $driverName = 'mysql';
@@ -46,6 +49,13 @@ class DbTestCase extends AppTestCase
         /** @var Module $podium */
         $podium = Yii::$app->podium;
         $this->podium = $podium;
+
+        $this->loadFixtures();
+    }
+
+    protected function tearDown(): void
+    {
+        $this->unloadFixtures();
     }
 
     /**

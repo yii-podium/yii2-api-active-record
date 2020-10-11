@@ -14,15 +14,9 @@ use function time;
 
 class MemberBanisherTest extends DbTestCase
 {
-    protected function setUp(): void
+    public function fixtures(): array
     {
-        parent::setUp();
-        (new MemberFixture())->load();
-    }
-
-    protected function tearDown(): void
-    {
-        (new MemberFixture())->unload();
+        return [MemberFixture::class];
     }
 
     public function testBanning(): void
