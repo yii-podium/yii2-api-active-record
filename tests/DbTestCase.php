@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Podium\Tests;
 
-use Podium\ActiveRecordApi\Module;
+use Podium\ActiveRecordApi\ActiveRecordPodium;
 use Yii;
 use yii\base\InvalidRouteException;
 use yii\console\Application;
@@ -25,7 +25,7 @@ class DbTestCase extends AppTestCase
 {
     use FixtureTrait;
 
-    public ?Module $podium = null;
+    public ?ActiveRecordPodium $podium = null;
 
     protected static string $driverName = 'mysql';
 
@@ -46,7 +46,7 @@ class DbTestCase extends AppTestCase
 
     protected function setUp(): void
     {
-        /** @var Module $podium */
+        /** @var ActiveRecordPodium $podium */
         $podium = Yii::$app->podium;
         $this->podium = $podium;
 
@@ -96,7 +96,7 @@ class DbTestCase extends AppTestCase
                         ],
                     ],
                 ],
-                'podium' => Module::class,
+                'podium' => ActiveRecordPodium::class,
             ],
         ], $config));
     }

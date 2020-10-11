@@ -113,8 +113,13 @@ final class MemberRepository implements MemberRepositoryInterface
         return MemberStatus::BANNED === $this->getModel()->status_id;
     }
 
-    public function isIgnoring(MemberRepositoryInterface $member): bool
+    public function isIgnoring(MemberRepositoryInterface $target): bool
     {
-        // TODO: Implement isIgnoring() method.
+        $acq = new AcquaintanceRepository();
+        if (!$acq->fetchOne($this, $target)) {
+            return false;
+        }
+
+        return $acq->isIgnoring();
     }
 }

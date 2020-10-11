@@ -10,4 +10,11 @@ return [
         'created_at' => 1,
         'updated_at' => 1,
     ],
+    'ignore1' => [
+        'member_id' => 2,
+        'target_id' => 3,
+        'type_id' => AcquaintanceType::IGNORE,
+        'created_at' => 1,
+        'updated_at' => 1,
+    ],
 ];

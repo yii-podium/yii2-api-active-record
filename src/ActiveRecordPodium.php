@@ -17,7 +17,7 @@ use Podium\ActiveRecordApi\Repositories\RankRepository;
 use Podium\ActiveRecordApi\Repositories\SubscriptionRepository;
 use Podium\ActiveRecordApi\Repositories\ThreadRepository;
 use Podium\ActiveRecordApi\Repositories\ThumbRepository;
-use Podium\Api\Module as BasePodium;
+use Podium\Api\Podium;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\i18n\PhpMessageSource;
@@ -40,7 +40,7 @@ use yii\i18n\PhpMessageSource;
  * http://www.yiiframework.com
  * https://github.com/yiisoft/yii2
  */
-class Module extends BasePodium
+class ActiveRecordPodium extends Podium
 {
     private string $version = '0.1.0';
 
