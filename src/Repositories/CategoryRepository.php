@@ -110,7 +110,7 @@ final class CategoryRepository implements CategoryRepositoryInterface
 
     public function isArchived(): bool
     {
-        return $this->getModel()->archived;
+        return (bool) $this->getModel()->archived;
     }
 
     public function archive(): bool
