@@ -68,9 +68,12 @@ class MemberAcquaintanceTest extends DbTestCase
         $target = new MemberRepository();
         $target->setModel(MemberActiveRecord::findOne(3));
 
+        self::assertFalse($member->isIgnoring($target));
+
         $response = $this->podium->member->ignore($member, $target);
 
         self::assertTrue($response->getResult());
+        self::assertTrue($member->isIgnoring($target));
 
         $acquaintance = AcquaintanceActiveRecord::findOne(
             [
@@ -90,9 +93,12 @@ class MemberAcquaintanceTest extends DbTestCase
         $target = new MemberRepository();
         $target->setModel(MemberActiveRecord::findOne(3));
 
+        self::assertTrue($member->isIgnoring($target));
+
         $response = $this->podium->member->unignore($member, $target);
 
         self::assertTrue($response->getResult());
+        self::assertFalse($member->isIgnoring($target));
 
         self::assertNull(
             AcquaintanceActiveRecord::findOne(

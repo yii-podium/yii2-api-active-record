@@ -7,9 +7,12 @@ namespace Podium\ActiveRecordApi\Repositories;
 use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\MemberActiveRecord;
 use Podium\ActiveRecordApi\Enums\MemberStatus;
+use Podium\Api\Interfaces\AcquaintanceRepositoryInterface;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
+use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
+use yii\di\Instance;
 use yii\helpers\Json;
 
 final class MemberRepository implements MemberRepositoryInterface
@@ -17,6 +20,8 @@ final class MemberRepository implements MemberRepositoryInterface
     use ActiveRecordRepositoryTrait;
 
     public string $activeRecordClass = MemberActiveRecord::class;
+
+    public string $acquaintanceRepositoryConfig = AcquaintanceRepository::class;
 
     private ?MemberActiveRecord $model = null;
 
@@ -113,13 +118,35 @@ final class MemberRepository implements MemberRepositoryInterface
         return MemberStatus::BANNED === $this->getModel()->status_id;
     }
 
+    private ?AcquaintanceRepositoryInterface $acquaintanceRepository = null;
+
+    /**
+     * @throws InvalidConfigException
+     */
+    public function getAcquaintanceRepository(): AcquaintanceRepositoryInterface
+    {
+        if (null === $this->acquaintanceRepository) {
+            /** @var AcquaintanceRepositoryInterface $repository */
+            $repository = Instance::ensure(
+                $this->acquaintanceRepositoryConfig,
+                AcquaintanceRepositoryInterface::class
+            );
+            $this->acquaintanceRepository = $repository;
+        }
+
+        return $this->acquaintanceRepository;
+    }
+
+    /**
+     * @throws InvalidConfigException
+     */
     public function isIgnoring(MemberRepositoryInterface $target): bool
     {
-        $acq = new AcquaintanceRepository();
-        if (!$acq->fetchOne($this, $target)) {
+        $acquaintance = $this->getAcquaintanceRepository();
+        if (!$acquaintance->fetchOne($this, $target)) {
             return false;
         }
 
-        return $acq->isIgnoring();
+        return $acquaintance->isIgnoring();
     }
 }
