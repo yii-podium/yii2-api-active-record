@@ -9,6 +9,8 @@ use Podium\ActiveRecordApi\Repositories\CategoryRepository;
 use Podium\Tests\DbTestCase;
 use Podium\Tests\Fixtures\CategoryFixture;
 
+use function time;
+
 class CategoryArchiverTest extends DbTestCase
 {
     public function fixtures(): array
@@ -26,10 +28,11 @@ class CategoryArchiverTest extends DbTestCase
 
         $response = $this->podium->category->archive($repository);
         self::assertTrue($response->getResult());
-
         self::assertTrue($repository->isArchived());
 
-        self::assertSame(1, CategoryActiveRecord::findOne(1)->archived);
+        $category = CategoryActiveRecord::findOne(1);
+        self::assertSame(1, $category->archived);
+        self::assertEqualsWithDelta(time(), $category->updated_at, 10);
     }
 
     public function testReviving(): void
@@ -42,9 +45,10 @@ class CategoryArchiverTest extends DbTestCase
 
         $response = $this->podium->category->revive($repository);
         self::assertTrue($response->getResult());
-
         self::assertFalse($repository->isArchived());
 
-        self::assertSame(0, CategoryActiveRecord::findOne(2)->archived);
+        $category = CategoryActiveRecord::findOne(2);
+        self::assertSame(0, $category->archived);
+        self::assertEqualsWithDelta(time(), $category->updated_at, 10);
     }
 }
