@@ -48,10 +48,9 @@ class CategoryActiveRecord extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name', 'visible'], 'required'],
+            [['name'], 'required'],
             [['name', 'slug'], 'string', 'max' => 191],
             [['description'], 'string', 'max' => 255],
-            [['visible'], 'boolean'],
             [['sort'], 'integer'],
             [['slug'], 'match', 'pattern' => '/^[a-zA-Z0-9\-]{0,255}$/'],
             [['slug'], 'unique'],
@@ -63,7 +62,6 @@ class CategoryActiveRecord extends ActiveRecord
         return [
             'name' => Yii::t('podium.label', 'category.name'),
             'description' => Yii::t('podium.label', 'category.description'),
-            'visible' => Yii::t('podium.label', 'category.visible'),
             'sort' => Yii::t('podium.label', 'category.sort'),
             'slug' => Yii::t('podium.label', 'category.slug'),
         ];

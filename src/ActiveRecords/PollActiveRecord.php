@@ -42,7 +42,7 @@ class PollActiveRecord extends ActiveRecord
         return [
             [['revealed'], 'default', 'value' => true],
             [['choice_id'], 'default', 'value' => PollChoice::SINGLE],
-            [['question', 'revealed', 'choice_id', 'expires_at', 'answers'], 'required'],
+            [['question', 'expires_at', 'answers'], 'required'],
             [['question'], 'string', 'min' => 3],
             [['revealed'], 'boolean'],
             [['choice_id'], 'in', 'range' => PollChoice::keys()],

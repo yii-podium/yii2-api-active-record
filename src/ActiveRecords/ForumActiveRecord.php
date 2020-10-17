@@ -52,9 +52,8 @@ class ForumActiveRecord extends ActiveRecord
     public function rules(): array
     {
         return [
-            [['name', 'visible'], 'required'],
+            [['name'], 'required'],
             [['name', 'slug'], 'string', 'max' => 255],
-            [['visible'], 'boolean'],
             [['sort'], 'integer'],
             [['slug'], 'match', 'pattern' => '/^[a-zA-Z0-9\-]{0,255}$/'],
             [['slug'], 'unique'],
@@ -65,7 +64,6 @@ class ForumActiveRecord extends ActiveRecord
     {
         return [
             'name' => Yii::t('podium.label', 'forum.name'),
-            'visible' => Yii::t('podium.label', 'forum.visible'),
             'sort' => Yii::t('podium.label', 'forum.sort'),
             'slug' => Yii::t('podium.label', 'forum.slug'),
         ];
