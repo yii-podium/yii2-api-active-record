@@ -13,23 +13,24 @@ use yii\db\ActiveRecord;
 /**
  * Thread Active Record.
  *
- * @property int                $id
- * @property int                $author_id
- * @property int                $forum_id
- * @property string             $name
- * @property string             $slug
- * @property bool               $pinned
- * @property bool               $locked
- * @property int                $posts_count
- * @property int                $views_count
- * @property int                $created_post_at
- * @property int                $updated_post_at
- * @property int                $created_at
- * @property int                $updated_at
- * @property bool               $archived
- * @property ForumActiveRecord  $forum
- * @property MemberActiveRecord $author
- * @property PollActiveRecord   $poll
+ * @property int                 $id
+ * @property int                 $author_id
+ * @property int                 $forum_id
+ * @property string              $name
+ * @property string              $slug
+ * @property bool                $pinned
+ * @property bool                $locked
+ * @property int                 $posts_count
+ * @property int                 $views_count
+ * @property int                 $created_post_at
+ * @property int                 $updated_post_at
+ * @property int                 $created_at
+ * @property int                 $updated_at
+ * @property bool                $archived
+ * @property ForumActiveRecord   $forum
+ * @property MemberActiveRecord  $author
+ * @property PollActiveRecord    $poll
+ * @property GroupActiveRecord[] $groups
  */
 class ThreadActiveRecord extends ActiveRecord
 {
@@ -82,5 +83,15 @@ class ThreadActiveRecord extends ActiveRecord
     public function getPoll(): ActiveQuery
     {
         return $this->hasOne(PollActiveRecord::class, ['thread_id' => 'id']);
+    }
+
+    public function getThreadGroups(): ActiveQuery
+    {
+        return $this->hasMany(ThreadGroupActiveRecord::class, ['thread_id' => 'id']);
+    }
+
+    public function getGroups(): ActiveQuery
+    {
+        return $this->hasMany(GroupActiveRecord::class, ['id' => 'group_id'])->via('threadGroups');
     }
 }

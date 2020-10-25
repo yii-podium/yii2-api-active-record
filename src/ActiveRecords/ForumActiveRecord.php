@@ -28,6 +28,7 @@ use yii\db\ActiveRecord;
  * @property bool                 $archived
  * @property CategoryActiveRecord $category
  * @property MemberActiveRecord   $author
+ * @property GroupActiveRecord[]  $groups
  */
 class ForumActiveRecord extends ActiveRecord
 {
@@ -77,5 +78,15 @@ class ForumActiveRecord extends ActiveRecord
     public function getAuthor(): ActiveQuery
     {
         return $this->hasOne(MemberActiveRecord::class, ['id' => 'author_id']);
+    }
+
+    public function getForumGroups(): ActiveQuery
+    {
+        return $this->hasMany(ForumGroupActiveRecord::class, ['forum_id' => 'id']);
+    }
+
+    public function getGroups(): ActiveQuery
+    {
+        return $this->hasMany(GroupActiveRecord::class, ['id' => 'group_id'])->via('forumGroups');
     }
 }

@@ -13,17 +13,18 @@ use yii\db\ActiveRecord;
 /**
  * Category Active Record.
  *
- * @property int                $id
- * @property int                $author_id
- * @property string             $name
- * @property string             $slug
- * @property string             $description
- * @property bool               $visible
- * @property int                $sort
- * @property int                $created_at
- * @property int                $updated_at
- * @property bool               $archived
- * @property MemberActiveRecord $author
+ * @property int                 $id
+ * @property int                 $author_id
+ * @property string              $name
+ * @property string              $slug
+ * @property string              $description
+ * @property bool                $visible
+ * @property int                 $sort
+ * @property int                 $created_at
+ * @property int                 $updated_at
+ * @property bool                $archived
+ * @property MemberActiveRecord  $author
+ * @property GroupActiveRecord[] $groups
  */
 class CategoryActiveRecord extends ActiveRecord
 {
@@ -70,5 +71,15 @@ class CategoryActiveRecord extends ActiveRecord
     public function getAuthor(): ActiveQuery
     {
         return $this->hasOne(MemberActiveRecord::class, ['id' => 'author_id']);
+    }
+
+    public function getCategoryGroups(): ActiveQuery
+    {
+        return $this->hasMany(CategoryGroupActiveRecord::class, ['category_id' => 'id']);
+    }
+
+    public function getGroups(): ActiveQuery
+    {
+        return $this->hasMany(GroupActiveRecord::class, ['id' => 'group_id'])->via('categoryGroups');
     }
 }
