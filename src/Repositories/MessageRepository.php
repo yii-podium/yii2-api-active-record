@@ -153,4 +153,14 @@ final class MessageRepository implements MessageRepositoryInterface
     {
         // TODO: Implement verifyParticipants() method.
     }
+
+    public function getAuthor(): MemberRepositoryInterface
+    {
+        // TODO: Implement getAuthor() method.
+    }
+
+    public function getAllowedGroups(): array
+    {
+        // TODO: Implement getAllowedGroups() method.
+    }
 }

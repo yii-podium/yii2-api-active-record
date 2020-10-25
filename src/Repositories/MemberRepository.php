@@ -10,6 +10,7 @@ use Podium\ActiveRecordApi\Enums\MemberStatus;
 use Podium\Api\Interfaces\AcquaintanceRepositoryInterface;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
+use Podium\Api\Interfaces\RoleRepositoryInterface;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
 use yii\di\Instance;
@@ -148,5 +149,35 @@ final class MemberRepository implements MemberRepositoryInterface
         }
 
         return $acquaintance->isIgnoring();
+    }
+
+    public function isGroupMember(array $groups): bool
+    {
+        // TODO: Implement isGroupMember() method.
+    }
+
+    public function hasRole(RepositoryInterface $subject = null, string $type = null): bool
+    {
+        // TODO: Implement hasRole() method.
+    }
+
+    public function addRole(RoleRepositoryInterface $role): bool
+    {
+        // TODO: Implement addRole() method.
+    }
+
+    public function removeRole(RoleRepositoryInterface $role): bool
+    {
+        // TODO: Implement removeRole() method.
+    }
+
+    public function getAuthor(): MemberRepositoryInterface
+    {
+        // TODO: Implement getAuthor() method.
+    }
+
+    public function getAllowedGroups(): array
+    {
+        // TODO: Implement getAllowedGroups() method.
     }
 }

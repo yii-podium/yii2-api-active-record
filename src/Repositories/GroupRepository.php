@@ -8,6 +8,7 @@ use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\GroupActiveRecord;
 use Podium\Api\Interfaces\GroupMemberRepositoryInterface;
 use Podium\Api\Interfaces\GroupRepositoryInterface;
+use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
 use yii\base\NotSupportedException;
 use yii\di\Instance;
@@ -88,5 +89,15 @@ final class GroupRepository implements GroupRepositoryInterface
         }
 
         return $this->groupMemberRepository;
+    }
+
+    public function getAuthor(): MemberRepositoryInterface
+    {
+        // TODO: Implement getAuthor() method.
+    }
+
+    public function getAllowedGroups(): array
+    {
+        // TODO: Implement getAllowedGroups() method.
     }
 }

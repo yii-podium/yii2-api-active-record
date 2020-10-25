@@ -188,4 +188,32 @@ final class CategoryRepository implements CategoryRepositoryInterface
 
         return true;
     }
+
+    public function isHidden(): bool
+    {
+        return !(bool) $this->getModel()->visible;
+    }
+
+    public function hide(): bool
+    {
+        // TODO: Implement hide() method.
+    }
+
+    public function reveal(): bool
+    {
+        // TODO: Implement reveal() method.
+    }
+
+    public function getAuthor(): MemberRepositoryInterface
+    {
+        $member = new MemberRepository();
+        $member->setModel($this->getModel()->author);
+
+        return $member;
+    }
+
+    public function getAllowedGroups(): array
+    {
+        // TODO: Implement getAllowedGroups() method.
+    }
 }

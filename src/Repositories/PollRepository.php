@@ -247,4 +247,14 @@ final class PollRepository implements PollRepositoryInterface
     {
         // TODO: Implement areAnswersAcceptable() method.
     }
+
+    public function getAuthor(): MemberRepositoryInterface
+    {
+        // TODO: Implement getAuthor() method.
+    }
+
+    public function getAllowedGroups(): array
+    {
+        // TODO: Implement getAllowedGroups() method.
+    }
 }

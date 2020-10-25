@@ -195,4 +195,14 @@ final class PostRepository implements PostRepositoryInterface
 
         return $post->save(false);
     }
+
+    public function getAuthor(): MemberRepositoryInterface
+    {
+        // TODO: Implement getAuthor() method.
+    }
+
+    public function getAllowedGroups(): array
+    {
+        // TODO: Implement getAllowedGroups() method.
+    }
 }

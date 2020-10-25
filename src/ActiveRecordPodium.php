@@ -63,12 +63,13 @@ class ActiveRecordPodium extends Podium
                 'category' => ['repositoryConfig' => CategoryRepository::class],
                 'forum' => ['repositoryConfig' => ForumRepository::class],
                 'group' => ['repositoryConfig' => GroupRepository::class],
-                'logger' => ['repositoryConfig' => LogRepository::class],
+                'log' => ['repositoryConfig' => LogRepository::class],
                 'member' => [
                     'memberRepositoryConfig' => $memberRepository,
                     'acquaintanceRepositoryConfig' => AcquaintanceRepository::class,
                 ],
                 'message' => ['repositoryConfig' => MessageRepository::class],
+                //'permit' => ['repositoryConfig' => RoleRepository::class],
                 'post' => [
                     'postRepositoryConfig' => PostRepository::class,
                     'thumbRepositoryConfig' => ThumbRepository::class,

@@ -6,6 +6,7 @@ namespace Podium\ActiveRecordApi\Repositories;
 
 use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\RankActiveRecord;
+use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\RankRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
 use yii\base\NotSupportedException;
@@ -68,5 +69,15 @@ final class RankRepository implements RankRepositoryInterface
         $this->setModel($rank);
 
         return true;
+    }
+
+    public function getAuthor(): MemberRepositoryInterface
+    {
+        // TODO: Implement getAuthor() method.
+    }
+
+    public function getAllowedGroups(): array
+    {
+        // TODO: Implement getAllowedGroups() method.
     }
 }

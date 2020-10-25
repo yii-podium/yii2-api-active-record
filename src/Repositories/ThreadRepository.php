@@ -222,4 +222,34 @@ final class ThreadRepository implements ThreadRepositoryInterface
     {
         return $this->getModel()->getPoll()->exists();
     }
+
+    public function getAuthor(): MemberRepositoryInterface
+    {
+        // TODO: Implement getAuthor() method.
+    }
+
+    public function getAllowedGroups(): array
+    {
+        // TODO: Implement getAllowedGroups() method.
+    }
+
+    public function isLocked(): bool
+    {
+        // TODO: Implement isLocked() method.
+    }
+
+    public function isHidden(): bool
+    {
+        // TODO: Implement isHidden() method.
+    }
+
+    public function hide(): bool
+    {
+        // TODO: Implement hide() method.
+    }
+
+    public function reveal(): bool
+    {
+        // TODO: Implement reveal() method.
+    }
 }

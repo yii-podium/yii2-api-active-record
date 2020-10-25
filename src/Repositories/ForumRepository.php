@@ -225,4 +225,29 @@ final class ForumRepository implements ForumRepositoryInterface
 
         return $forum->save(false);
     }
+
+    public function isHidden(): bool
+    {
+        // TODO: Implement isHidden() method.
+    }
+
+    public function hide(): bool
+    {
+        // TODO: Implement hide() method.
+    }
+
+    public function reveal(): bool
+    {
+        // TODO: Implement reveal() method.
+    }
+
+    public function getAuthor(): MemberRepositoryInterface
+    {
+        // TODO: Implement getAuthor() method.
+    }
+
+    public function getAllowedGroups(): array
+    {
+        // TODO: Implement getAllowedGroups() method.
+    }
 }
