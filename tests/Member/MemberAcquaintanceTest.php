@@ -40,27 +40,6 @@ class MemberAcquaintanceTest extends DbTestCase
         self::assertEqualsWithDelta(time(), $acquaintance->updated_at, 10);
     }
 
-    public function testUnfriending(): void
-    {
-        $member = new MemberRepository();
-        $member->setModel(MemberActiveRecord::findOne(2));
-        $target = new MemberRepository();
-        $target->setModel(MemberActiveRecord::findOne(1));
-
-        $response = $this->podium->member->unfriend($member, $target);
-
-        self::assertTrue($response->getResult());
-
-        self::assertNull(
-            AcquaintanceActiveRecord::findOne(
-                [
-                    'member_id' => 2,
-                    'target_id' => 1,
-                ]
-            )
-        );
-    }
-
     public function testIgnoring(): void
     {
         $member = new MemberRepository();
@@ -84,29 +63,5 @@ class MemberAcquaintanceTest extends DbTestCase
         self::assertSame(AcquaintanceType::IGNORE, $acquaintance->type_id);
         self::assertEqualsWithDelta(time(), $acquaintance->created_at, 10);
         self::assertEqualsWithDelta(time(), $acquaintance->updated_at, 10);
-    }
-
-    public function testUnignoring(): void
-    {
-        $member = new MemberRepository();
-        $member->setModel(MemberActiveRecord::findOne(2));
-        $target = new MemberRepository();
-        $target->setModel(MemberActiveRecord::findOne(3));
-
-        self::assertTrue($member->isIgnoring($target));
-
-        $response = $this->podium->member->unignore($member, $target);
-
-        self::assertTrue($response->getResult());
-        self::assertFalse($member->isIgnoring($target));
-
-        self::assertNull(
-            AcquaintanceActiveRecord::findOne(
-                [
-                    'member_id' => 2,
-                    'target_id' => 3,
-                ]
-            )
-        );
     }
 }

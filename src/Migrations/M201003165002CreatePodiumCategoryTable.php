@@ -21,8 +21,8 @@ class M201003165002CreatePodiumCategoryTable extends Migration
         $this->createTable('{{%podium_category}}', [
             'id' => $this->primaryKey(),
             'author_id' => $this->integer()->notNull(),
-            'name' => $this->string(255)->notNull(),
-            'slug' => $this->string(255)->notNull()->unique(),
+            'name' => $this->string(191)->notNull(),
+            'slug' => $this->string(191)->notNull()->unique(),
             'description' => $this->text(),
             'visible' => $this->boolean()->notNull()->defaultValue(true),
             'sort' => $this->smallInteger()->notNull()->defaultValue(0),

@@ -196,12 +196,32 @@ final class CategoryRepository implements CategoryRepositoryInterface
 
     public function hide(): bool
     {
-        // TODO: Implement hide() method.
+        $category = $this->getModel();
+
+        $category->visible = false;
+
+        if (!$category->validate()) {
+            $this->errors = $category->errors;
+
+            return false;
+        }
+
+        return $category->save(false);
     }
 
     public function reveal(): bool
     {
-        // TODO: Implement reveal() method.
+        $category = $this->getModel();
+
+        $category->visible = true;
+
+        if (!$category->validate()) {
+            $this->errors = $category->errors;
+
+            return false;
+        }
+
+        return $category->save(false);
     }
 
     public function getAuthor(): MemberRepositoryInterface
