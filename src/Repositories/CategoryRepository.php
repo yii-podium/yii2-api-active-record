@@ -234,6 +234,15 @@ final class CategoryRepository implements CategoryRepositoryInterface
 
     public function getAllowedGroups(): array
     {
-        // TODO: Implement getAllowedGroups() method.
+        $groupsRepositories = [];
+
+        $groups = $this->getModel()->groups;
+        foreach ($groups as $group) {
+            $repository = new GroupRepository();
+            $repository->setModel($group);
+            $groupsRepositories[] = $repository;
+        }
+
+        return $groupsRepositories;
     }
 }

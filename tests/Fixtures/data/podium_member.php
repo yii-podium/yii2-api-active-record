@@ -30,4 +30,13 @@ return [
         'created_at' => 1,
         'updated_at' => 1,
     ],
+    'member4' => [
+        'id' => 4,
+        'user_id' => '4',
+        'username' => 'Member4',
+        'slug' => 'Member4',
+        'status_id' => MemberStatus::ACTIVE,
+        'created_at' => 1,
+        'updated_at' => 1,
+    ],
 ];

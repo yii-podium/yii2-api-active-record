@@ -23,7 +23,7 @@ class MemberAcquaintanceTest extends DbTestCase
         $member = new MemberRepository();
         $member->setModel(MemberActiveRecord::findOne(1));
         $target = new MemberRepository();
-        $target->setModel(MemberActiveRecord::findOne(2));
+        $target->setModel(MemberActiveRecord::findOne(4));
 
         $response = $this->podium->member->befriend($member, $target);
 
@@ -32,7 +32,7 @@ class MemberAcquaintanceTest extends DbTestCase
         $acquaintance = AcquaintanceActiveRecord::findOne(
             [
                 'member_id' => 1,
-                'target_id' => 2,
+                'target_id' => 4,
             ]
         );
         self::assertSame(AcquaintanceType::FRIEND, $acquaintance->type_id);
@@ -45,7 +45,7 @@ class MemberAcquaintanceTest extends DbTestCase
         $member = new MemberRepository();
         $member->setModel(MemberActiveRecord::findOne(1));
         $target = new MemberRepository();
-        $target->setModel(MemberActiveRecord::findOne(3));
+        $target->setModel(MemberActiveRecord::findOne(4));
 
         self::assertFalse($member->isIgnoring($target));
 
@@ -57,7 +57,7 @@ class MemberAcquaintanceTest extends DbTestCase
         $acquaintance = AcquaintanceActiveRecord::findOne(
             [
                 'member_id' => 1,
-                'target_id' => 3,
+                'target_id' => 4,
             ]
         );
         self::assertSame(AcquaintanceType::IGNORE, $acquaintance->type_id);
