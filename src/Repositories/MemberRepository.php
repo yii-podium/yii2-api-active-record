@@ -151,11 +151,6 @@ final class MemberRepository implements MemberRepositoryInterface
         return $acquaintance->isIgnoring();
     }
 
-    public function isGroupMember(array $groups): bool
-    {
-        // TODO: Implement isGroupMember() method.
-    }
-
     public function hasRole(RepositoryInterface $subject = null, string $type = null): bool
     {
         // TODO: Implement hasRole() method.
@@ -174,10 +169,5 @@ final class MemberRepository implements MemberRepositoryInterface
     public function getAuthor(): MemberRepositoryInterface
     {
         // TODO: Implement getAuthor() method.
-    }
-
-    public function getAllowedGroups(): array
-    {
-        // TODO: Implement getAllowedGroups() method.
     }
 }

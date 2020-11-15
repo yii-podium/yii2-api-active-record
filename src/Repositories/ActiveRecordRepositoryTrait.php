@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Podium\ActiveRecordApi\Repositories;
 
 use LogicException;
+use Podium\Api\Interfaces\GroupRepositoryInterface;
 use Throwable;
 use yii\base\NotSupportedException;
 use yii\data\ActiveDataProvider;
@@ -126,5 +127,66 @@ trait ActiveRecordRepositoryTrait
         }
 
         return $model->save(false);
+    }
+
+    public function getGroups(): array
+    {
+        $groupsRepositories = [];
+
+        $groups = $this->getModel()->groups;
+        foreach ($groups as $group) {
+            $repository = new GroupRepository();
+            $repository->setModel($group);
+            $groupsRepositories[] = $repository;
+        }
+
+        return $groupsRepositories;
+    }
+
+    public function hasGroups(array $groups): bool
+    {
+        $existingGroups = $this->getModel()->groups;
+        if (count($existingGroups) < count($groups)) {
+            return false;
+        }
+
+        /** @var GroupRepositoryInterface $group */
+        foreach ($groups as $group) {
+            $groupId = $group->getId();
+            $groupFound = false;
+            foreach ($existingGroups as $existingGroup) {
+                if ($existingGroup->id === $groupId) {
+                    $groupFound = true;
+                    break;
+                }
+            }
+            if (!$groupFound) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function join(GroupRepositoryInterface $group): bool
+    {
+        try {
+            $this->getModel()->link('groups', $group->getModel());
+        } catch (Throwable $exception) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function leave(GroupRepositoryInterface $group): bool
+    {
+        try {
+            $this->getModel()->unlink('groups', $group->getModel(), true);
+        } catch (Throwable $exception) {
+            return false;
+        }
+
+        return true;
     }
 }
