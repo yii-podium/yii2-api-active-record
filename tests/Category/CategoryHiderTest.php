@@ -11,42 +11,42 @@ use Podium\Tests\Fixtures\CategoryFixture;
 
 use function time;
 
-class CategoryArchiverTest extends DbTestCase
+class CategoryHiderTest extends DbTestCase
 {
     public function fixtures(): array
     {
         return [CategoryFixture::class];
     }
 
-    public function testArchiving(): void
+    public function testHiding(): void
     {
         $repository = new CategoryRepository();
         $repository->setModel(CategoryActiveRecord::findOne(1));
 
-        self::assertFalse($repository->isArchived());
+        self::assertFalse($repository->isHidden());
 
-        $response = $this->podium->category->archive($repository);
+        $response = $this->podium->category->hide($repository);
         self::assertTrue($response->getResult());
-        self::assertTrue($repository->isArchived());
+        self::assertTrue($repository->isHidden());
 
         $category = CategoryActiveRecord::findOne(1);
-        self::assertSame(1, $category->archived);
+        self::assertSame(0, $category->visible);
         self::assertEqualsWithDelta(time(), $category->updated_at, 10);
     }
 
-    public function testReviving(): void
+    public function testRevealing(): void
     {
         $repository = new CategoryRepository();
-        $repository->setModel(CategoryActiveRecord::findOne(2));
+        $repository->setModel(CategoryActiveRecord::findOne(3));
 
-        self::assertTrue($repository->isArchived());
+        self::assertTrue($repository->isHidden());
 
-        $response = $this->podium->category->revive($repository);
+        $response = $this->podium->category->reveal($repository);
         self::assertTrue($response->getResult());
-        self::assertFalse($repository->isArchived());
+        self::assertFalse($repository->isHidden());
 
-        $category = CategoryActiveRecord::findOne(2);
-        self::assertSame(0, $category->archived);
+        $category = CategoryActiveRecord::findOne(3);
+        self::assertSame(1, $category->visible);
         self::assertEqualsWithDelta(time(), $category->updated_at, 10);
     }
 }

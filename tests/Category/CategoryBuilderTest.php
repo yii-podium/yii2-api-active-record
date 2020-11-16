@@ -6,6 +6,7 @@ namespace Podium\Tests\Category;
 
 use Podium\ActiveRecordApi\ActiveRecords\CategoryActiveRecord;
 use Podium\ActiveRecordApi\ActiveRecords\MemberActiveRecord;
+use Podium\ActiveRecordApi\Repositories\CategoryRepository;
 use Podium\ActiveRecordApi\Repositories\MemberRepository;
 use Podium\Tests\DbTestCase;
 use Podium\Tests\Fixtures\CategoryFixture;
@@ -61,5 +62,23 @@ class CategoryBuilderTest extends DbTestCase
         self::assertSame('Category About Time', $category->description);
         self::assertSame(0, $category->archived);
         self::assertSame(15, $category->sort);
+    }
+
+    public function testEditing(): void
+    {
+        $repository = new CategoryRepository();
+        $repository->setModel(CategoryActiveRecord::findOne(1));
+        $response = $this->podium->category->edit($repository, ['name' => 'Category Edited']);
+
+        self::assertTrue($response->getResult());
+
+        $category = CategoryActiveRecord::findOne(1);
+        self::assertSame(1, $category->author_id);
+        self::assertSame(1, $category->visible);
+        self::assertSame('Category Edited', $category->name);
+        self::assertSame('category-1', $category->slug);
+        self::assertSame('Category Description', $category->description);
+        self::assertSame(0, $category->archived);
+        self::assertSame(10, $category->sort);
     }
 }

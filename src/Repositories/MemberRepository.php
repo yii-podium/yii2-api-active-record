@@ -55,7 +55,7 @@ final class MemberRepository implements MemberRepositoryInterface
      */
     public function getParent(): RepositoryInterface
     {
-        throw new NotSupportedException('Member does not have parent!');
+        throw new NotSupportedException('Member does not have a parent!');
     }
 
     /**
@@ -168,6 +168,6 @@ final class MemberRepository implements MemberRepositoryInterface
 
     public function getAuthor(): MemberRepositoryInterface
     {
-        // TODO: Implement getAuthor() method.
+        throw new NotSupportedException('Member does not have an author!');
     }
 }

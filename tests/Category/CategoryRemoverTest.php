@@ -18,9 +18,8 @@ class CategoryRemoverTest extends DbTestCase
 
     public function testRemoving(): void
     {
-        $category = CategoryActiveRecord::findOne(2);
         $repository = new CategoryRepository();
-        $repository->setModel($category);
+        $repository->setModel(CategoryActiveRecord::findOne(2));
 
         $response = $this->podium->category->remove($repository);
         self::assertTrue($response->getResult());
