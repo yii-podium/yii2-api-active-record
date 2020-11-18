@@ -35,6 +35,8 @@ class CategoryBuilderTest extends DbTestCase
         self::assertNull($category->description);
         self::assertSame(0, $category->archived);
         self::assertSame(22, $category->sort);
+        self::assertEqualsWithDelta(time(), $category->created_at, 10);
+        self::assertEqualsWithDelta(time(), $category->updated_at, 10);
     }
 
     public function testCreatingWithFullData(): void
@@ -62,6 +64,8 @@ class CategoryBuilderTest extends DbTestCase
         self::assertSame('Category About Time', $category->description);
         self::assertSame(0, $category->archived);
         self::assertSame(15, $category->sort);
+        self::assertEqualsWithDelta(time(), $category->created_at, 10);
+        self::assertEqualsWithDelta(time(), $category->updated_at, 10);
     }
 
     public function testEditing(): void
@@ -80,5 +84,7 @@ class CategoryBuilderTest extends DbTestCase
         self::assertSame('Category Description', $category->description);
         self::assertSame(0, $category->archived);
         self::assertSame(10, $category->sort);
+        self::assertNotEqualsWithDelta(time(), $category->created_at, 10);
+        self::assertEqualsWithDelta(time(), $category->updated_at, 10);
     }
 }

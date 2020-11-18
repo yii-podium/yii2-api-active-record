@@ -54,9 +54,10 @@ class ForumActiveRecord extends ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['name', 'slug'], 'string', 'max' => 255],
+            [['name', 'slug'], 'string', 'max' => 191],
+            [['description'], 'string', 'max' => 255],
             [['sort'], 'integer'],
-            [['slug'], 'match', 'pattern' => '/^[a-zA-Z0-9\-]{0,255}$/'],
+            [['slug'], 'match', 'pattern' => '/^[a-zA-Z0-9\-]{0,191}$/'],
             [['slug'], 'unique'],
         ];
     }

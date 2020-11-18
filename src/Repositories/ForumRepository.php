@@ -63,7 +63,7 @@ final class ForumRepository implements ForumRepositoryInterface
 
     public function isArchived(): bool
     {
-        return $this->getModel()->archived;
+        return (bool) $this->getModel()->archived;
     }
 
     public function create(
@@ -228,26 +228,44 @@ final class ForumRepository implements ForumRepositoryInterface
 
     public function isHidden(): bool
     {
-        // TODO: Implement isHidden() method.
+        return !(bool) $this->getModel()->visible;
     }
 
     public function hide(): bool
     {
-        // TODO: Implement hide() method.
+        $forum = $this->getModel();
+
+        $forum->visible = false;
+
+        if (!$forum->validate()) {
+            $this->errors = $forum->errors;
+
+            return false;
+        }
+
+        return $forum->save(false);
     }
 
     public function reveal(): bool
     {
-        // TODO: Implement reveal() method.
+        $forum = $this->getModel();
+
+        $forum->visible = true;
+
+        if (!$forum->validate()) {
+            $this->errors = $forum->errors;
+
+            return false;
+        }
+
+        return $forum->save(false);
     }
 
     public function getAuthor(): MemberRepositoryInterface
     {
-        // TODO: Implement getAuthor() method.
-    }
+        $member = new MemberRepository();
+        $member->setModel($this->getModel()->author);
 
-    public function getAllowedGroups(): array
-    {
-        // TODO: Implement getAllowedGroups() method.
+        return $member;
     }
 }
