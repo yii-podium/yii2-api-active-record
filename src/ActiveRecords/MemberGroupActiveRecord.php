@@ -11,10 +11,11 @@ use yii\db\ActiveRecord;
 /**
  * Member Group Active Record.
  *
- * @property int                  $member_id
- * @property int                  $group_id
- * @property CategoryActiveRecord $category
- * @property GroupActiveRecord    $group
+ * @property int                $member_id
+ * @property int                $group_id
+ * @property int                $created_at
+ * @property GroupActiveRecord  $group
+ * @property MemberActiveRecord $member
  */
 class MemberGroupActiveRecord extends ActiveRecord
 {

@@ -13,6 +13,7 @@ use yii\db\ActiveRecord;
  *
  * @property int                $thread_id
  * @property int                $group_id
+ * @property int                $created_at
  * @property ThreadActiveRecord $thread
  * @property GroupActiveRecord  $group
  */

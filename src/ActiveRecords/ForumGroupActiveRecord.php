@@ -13,6 +13,7 @@ use yii\db\ActiveRecord;
  *
  * @property int               $forum_id
  * @property int               $group_id
+ * @property int               $created_at
  * @property ForumActiveRecord $forum
  * @property GroupActiveRecord $group
  */
