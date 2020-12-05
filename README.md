@@ -4,6 +4,7 @@
 ![Latest Stable Version](https://img.shields.io/packagist/v/yii-podium/yii2-api-active-record.svg)
 [![Total Downloads](https://img.shields.io/packagist/dt/yii-podium/yii2-api-active-record.svg)](https://packagist.org/packages/yii-podium/yii2-api-active-record)
 ![License](https://img.shields.io/packagist/l/yii-podium/yii2-api-active-record.svg)
+[![Infection MSI](https://badge.stryker-mutator.io/github.com/yii-podium/yii2-api-active-record/master)](https://infection.github.io)
 
 Yii 2 Forum Engine Module API With Active Records
 
