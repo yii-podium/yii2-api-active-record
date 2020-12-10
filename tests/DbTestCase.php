@@ -74,31 +74,36 @@ class DbTestCase extends AppTestCase
      */
     protected static function mockApplication(array $config = [], string $appClass = Application::class): void
     {
-        new $appClass(ArrayHelper::merge([
-            'id' => 'PodiumAPITest',
-            'basePath' => __DIR__,
-            'vendorPath' => __DIR__.'/../vendor/',
-            'controllerMap' => [
-                'migrate' => [
-                    'class' => EchoMigrateController::class,
-                    'migrationNamespaces' => ['Podium\ActiveRecordApi\Migrations'],
-                    'migrationPath' => null,
-                    'interactive' => false,
-                    'compact' => true,
-                ],
-            ],
-            'components' => [
-                'db' => static::getConnection(),
-                'i18n' => [
-                    'translations' => [
-                        'podium.*' => [
-                            'class' => PhpMessageSource::class,
+        new $appClass(
+            ArrayHelper::merge(
+                [
+                    'id' => 'PodiumAPITest',
+                    'basePath' => __DIR__,
+                    'vendorPath' => __DIR__.'/../vendor/',
+                    'controllerMap' => [
+                        'migrate' => [
+                            'class' => EchoMigrateController::class,
+                            'migrationNamespaces' => ['Podium\ActiveRecordApi\Migrations'],
+                            'migrationPath' => null,
+                            'interactive' => false,
+                            'compact' => true,
                         ],
                     ],
+                    'components' => [
+                        'db' => static::getConnection(),
+                        'i18n' => [
+                            'translations' => [
+                                'podium.*' => [
+                                    'class' => PhpMessageSource::class,
+                                ],
+                            ],
+                        ],
+                        'podium' => ActiveRecordPodium::class,
+                    ],
                 ],
-                'podium' => ActiveRecordPodium::class,
-            ],
-        ], $config));
+                $config
+            )
+        );
     }
 
     /**

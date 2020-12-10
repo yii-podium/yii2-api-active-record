@@ -67,7 +67,7 @@ final class LogRepository implements LogRepositoryInterface
         /** @var LogActiveRecord $log */
         $log = new $this->activeRecordClass();
 
-        if (!$log->load($data, '')) {
+        if ([] !== $data && !$log->load($data, '')) {
             return false;
         }
 
