@@ -2,29 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Podium\Tests\Forum;
+namespace Podium\Tests\Thread;
 
-use Podium\ActiveRecordApi\ActiveRecords\ForumActiveRecord;
-use Podium\ActiveRecordApi\ActiveRecords\ForumGroupActiveRecord;
 use Podium\ActiveRecordApi\ActiveRecords\GroupActiveRecord;
-use Podium\ActiveRecordApi\Repositories\ForumRepository;
+use Podium\ActiveRecordApi\ActiveRecords\ThreadActiveRecord;
+use Podium\ActiveRecordApi\ActiveRecords\ThreadGroupActiveRecord;
 use Podium\ActiveRecordApi\Repositories\GroupRepository;
+use Podium\ActiveRecordApi\Repositories\ThreadRepository;
 use Podium\Tests\DbTestCase;
-use Podium\Tests\Fixtures\ForumGroupFixture;
+use Podium\Tests\Fixtures\ThreadGroupFixture;
 
 use function time;
 
-class ForumGroupTest extends DbTestCase
+class ThreadGroupTest extends DbTestCase
 {
     public function fixtures(): array
     {
-        return [ForumGroupFixture::class];
+        return [ThreadGroupFixture::class];
     }
 
     public function testJoining(): void
     {
-        $repository = new ForumRepository();
-        $repository->setModel(ForumActiveRecord::findOne(2));
+        $repository = new ThreadRepository();
+        $repository->setModel(ThreadActiveRecord::findOne(2));
 
         self::assertEmpty($repository->getGroups());
 
@@ -37,16 +37,16 @@ class ForumGroupTest extends DbTestCase
         self::assertNotEmpty($repository->getGroups());
         self::assertTrue($repository->hasGroups([$group]));
 
-        $forumGroup = ForumGroupActiveRecord::findOne(2);
-        self::assertSame(2, $forumGroup->forum_id);
-        self::assertSame(1, $forumGroup->group_id);
-        self::assertEqualsWithDelta(time(), $forumGroup->created_at, 10);
+        $threadGroup = ThreadGroupActiveRecord::findOne(2);
+        self::assertSame(2, $threadGroup->thread_id);
+        self::assertSame(1, $threadGroup->group_id);
+        self::assertEqualsWithDelta(time(), $threadGroup->created_at, 10);
     }
 
     public function testLeaving(): void
     {
-        $repository = new ForumRepository();
-        $repository->setModel(ForumActiveRecord::findOne(1));
+        $repository = new ThreadRepository();
+        $repository->setModel(ThreadActiveRecord::findOne(1));
 
         self::assertNotEmpty($repository->getGroups());
 
@@ -58,6 +58,6 @@ class ForumGroupTest extends DbTestCase
 
         self::assertEmpty($repository->getGroups());
 
-        self::assertNull(ForumGroupActiveRecord::findOne(1));
+        self::assertNull(ThreadGroupActiveRecord::findOne(1));
     }
 }

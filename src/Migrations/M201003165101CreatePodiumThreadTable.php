@@ -24,6 +24,7 @@ class M201003165101CreatePodiumThreadTable extends Migration
             'author_id' => $this->integer()->notNull(),
             'name' => $this->string(191)->notNull(),
             'slug' => $this->string(191)->notNull()->unique(),
+            'visible' => $this->boolean()->notNull()->defaultValue(true),
             'pinned' => $this->boolean()->notNull()->defaultValue(false),
             'locked' => $this->boolean()->notNull()->defaultValue(false),
             'posts_count' => $this->integer()->notNull()->defaultValue(0),

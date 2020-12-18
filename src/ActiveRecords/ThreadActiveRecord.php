@@ -18,6 +18,7 @@ use yii\db\ActiveRecord;
  * @property int                 $forum_id
  * @property string              $name
  * @property string              $slug
+ * @property bool                $visible
  * @property bool                $pinned
  * @property bool                $locked
  * @property int                 $posts_count

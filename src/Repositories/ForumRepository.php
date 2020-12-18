@@ -37,13 +37,13 @@ final class ForumRepository implements ForumRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(ActiveRecord $forumActiveRecord): void
+    public function setModel(ActiveRecord $model): void
     {
-        if (!$forumActiveRecord instanceof ForumActiveRecord) {
+        if (!$model instanceof ForumActiveRecord) {
             throw new LogicException('You need to pass Podium\ActiveRecordApi\ActiveRecords\ForumActiveRecord!');
         }
 
-        $this->model = $forumActiveRecord;
+        $this->model = $model;
     }
 
     public function getId(): int

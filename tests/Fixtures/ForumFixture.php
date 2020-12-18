@@ -11,8 +11,5 @@ class ForumFixture extends ActiveFixture
 {
     public $modelClass = ForumActiveRecord::class;
 
-    public $depends = [
-        MemberFixture::class,
-        CategoryFixture::class,
-    ];
+    public $depends = [CategoryFixture::class];
 }

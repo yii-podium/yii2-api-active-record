@@ -37,13 +37,13 @@ final class ThreadRepository implements ThreadRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(ActiveRecord $threadActiveRecord): void
+    public function setModel(ActiveRecord $model): void
     {
-        if (!$threadActiveRecord instanceof ThreadActiveRecord) {
+        if (!$model instanceof ThreadActiveRecord) {
             throw new LogicException('You need to pass Podium\ActiveRecordApi\ActiveRecords\ThreadActiveRecord!');
         }
 
-        $this->model = $threadActiveRecord;
+        $this->model = $model;
     }
 
     public function getId(): int
@@ -63,7 +63,7 @@ final class ThreadRepository implements ThreadRepositoryInterface
 
     public function isArchived(): bool
     {
-        return $this->getModel()->archived;
+        return (bool) $this->getModel()->archived;
     }
 
     public function getPostsCount(): int
@@ -225,31 +225,49 @@ final class ThreadRepository implements ThreadRepositoryInterface
 
     public function getAuthor(): MemberRepositoryInterface
     {
-        // TODO: Implement getAuthor() method.
-    }
+        $member = new MemberRepository();
+        $member->setModel($this->getModel()->author);
 
-    public function getAllowedGroups(): array
-    {
-        // TODO: Implement getAllowedGroups() method.
+        return $member;
     }
 
     public function isLocked(): bool
     {
-        // TODO: Implement isLocked() method.
+        return (bool) $this->getModel()->locked;
     }
 
     public function isHidden(): bool
     {
-        // TODO: Implement isHidden() method.
+        return !(bool) $this->getModel()->visible;
     }
 
     public function hide(): bool
     {
-        // TODO: Implement hide() method.
+        $thread = $this->getModel();
+
+        $thread->visible = false;
+
+        if (!$thread->validate()) {
+            $this->errors = $thread->errors;
+
+            return false;
+        }
+
+        return $thread->save(false);
     }
 
     public function reveal(): bool
     {
-        // TODO: Implement reveal() method.
+        $thread = $this->getModel();
+
+        $thread->visible = true;
+
+        if (!$thread->validate()) {
+            $this->errors = $thread->errors;
+
+            return false;
+        }
+
+        return $thread->save(false);
     }
 }
