@@ -6,24 +6,17 @@ namespace Podium\ActiveRecordApi\Repositories;
 
 use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\GroupActiveRecord;
-use Podium\Api\Interfaces\GroupMemberRepositoryInterface;
 use Podium\Api\Interfaces\GroupRepositoryInterface;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
-use yii\di\Instance;
 
 final class GroupRepository implements GroupRepositoryInterface
 {
     use ActiveRecordRepositoryTrait;
 
     public string $activeRecordClass = GroupActiveRecord::class;
-
-    /**
-     * @var string|array|GroupMemberRepositoryInterface
-     */
-    public $groupMemberRepositoryConfig = GroupMemberRepository::class;
 
     private ?GroupActiveRecord $model = null;
 
@@ -83,26 +76,11 @@ final class GroupRepository implements GroupRepositoryInterface
         return true;
     }
 
-    private ?GroupMemberRepositoryInterface $groupMemberRepository = null;
-
-    public function getGroupMember(): GroupMemberRepositoryInterface
-    {
-        if (null === $this->groupMemberRepository) {
-            /** @var GroupMemberRepositoryInterface $repository */
-            $repository = Instance::ensure($this->groupMemberRepositoryConfig, GroupMemberRepositoryInterface::class);
-            $this->groupMemberRepository = $repository;
-        }
-
-        return $this->groupMemberRepository;
-    }
-
+    /**
+     * @throws NotSupportedException
+     */
     public function getAuthor(): MemberRepositoryInterface
     {
-        // TODO: Implement getAuthor() method.
-    }
-
-    public function getAllowedGroups(): array
-    {
-        // TODO: Implement getAllowedGroups() method.
+        throw new NotSupportedException('Group does not have author!');
     }
 }

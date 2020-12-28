@@ -111,13 +111,11 @@ final class LogRepository implements LogRepositoryInterface
         throw new NotSupportedException('Log does not support editing!');
     }
 
+    /**
+     * @throws NotSupportedException
+     */
     public function getAuthor(): MemberRepositoryInterface
     {
-        // TODO: Implement getAuthor() method.
-    }
-
-    public function getAllowedGroups(): array
-    {
-        // TODO: Implement getAllowedGroups() method.
+        throw new NotSupportedException('Group does not have author!');
     }
 }

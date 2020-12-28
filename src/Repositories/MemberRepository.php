@@ -156,7 +156,7 @@ final class MemberRepository implements MemberRepositoryInterface
         return $acquaintance->isIgnoring();
     }
 
-    public function hasRole(RepositoryInterface $subject = null, string $type = null): bool
+    public function hasRole(RepositoryInterface $role, string $type = null): bool
     {
         // TODO: Implement hasRole() method.
     }
@@ -171,6 +171,9 @@ final class MemberRepository implements MemberRepositoryInterface
         // TODO: Implement removeRole() method.
     }
 
+    /**
+     * @throws NotSupportedException
+     */
     public function getAuthor(): MemberRepositoryInterface
     {
         throw new NotSupportedException('Member does not have an author!');

@@ -45,7 +45,7 @@ class PollActiveRecord extends ActiveRecord
             [['question', 'expires_at', 'answers'], 'required'],
             [['question'], 'string', 'min' => 3],
             [['revealed'], 'boolean'],
-            [['choice_id'], 'in', 'range' => PollChoice::keys()],
+            [['choice_id'], 'in', 'range' => [PollChoice::SINGLE, PollChoice::MULTIPLE]],
             [['expires_at'], 'integer', 'min' => time()],
             [['answers'], 'each', 'rule' => ['string', 'min' => 3]],
         ];
