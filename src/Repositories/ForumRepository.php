@@ -37,7 +37,7 @@ final class ForumRepository implements ForumRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(ActiveRecord $model): void
+    public function setModel(?ActiveRecord $model): void
     {
         if (!$model instanceof ForumActiveRecord) {
             throw new LogicException('You need to pass Podium\ActiveRecordApi\ActiveRecords\ForumActiveRecord!');

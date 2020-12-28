@@ -13,6 +13,7 @@ use Podium\Api\Interfaces\RepositoryInterface;
 use Podium\Api\Interfaces\RoleRepositoryInterface;
 use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
+use yii\db\ActiveRecord;
 use yii\di\Instance;
 use yii\helpers\Json;
 
@@ -40,9 +41,13 @@ final class MemberRepository implements MemberRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(MemberActiveRecord $activeRecord): void
+    public function setModel(?ActiveRecord $model): void
     {
-        $this->model = $activeRecord;
+        if (!$model instanceof MemberActiveRecord) {
+            throw new LogicException('You need to pass Podium\ActiveRecordApi\ActiveRecords\MemberActiveRecord!');
+        }
+
+        $this->model = $model;
     }
 
     public function getId(): int

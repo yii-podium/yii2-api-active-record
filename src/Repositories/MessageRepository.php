@@ -36,9 +36,9 @@ final class MessageRepository implements MessageRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(MessageActiveRecord $activeRecord): void
+    public function setModel(MessageActiveRecord $model): void
     {
-        $this->model = $activeRecord;
+        $this->model = $model;
     }
 
     public function getParent(): MessageRepositoryInterface

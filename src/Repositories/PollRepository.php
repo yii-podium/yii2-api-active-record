@@ -43,13 +43,13 @@ final class PollRepository implements PollRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(ActiveRecord $pollActiveRecord): void
+    public function setModel(ActiveRecord $pollModel): void
     {
-        if (!$pollActiveRecord instanceof PollActiveRecord) {
+        if (!$pollModel instanceof PollActiveRecord) {
             throw new LogicException('You need to pass Podium\ActiveRecordApi\ActiveRecords\PollActiveRecord!');
         }
 
-        $this->model = $pollActiveRecord;
+        $this->model = $pollModel;
     }
 
     public function getId(): int

@@ -40,13 +40,13 @@ final class CategoryRepository implements CategoryRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(ActiveRecord $categoryActiveRecord): void
+    public function setModel(?ActiveRecord $model): void
     {
-        if (!$categoryActiveRecord instanceof CategoryActiveRecord) {
+        if (!$model instanceof CategoryActiveRecord) {
             throw new LogicException('You need to pass Podium\ActiveRecordApi\ActiveRecords\CategoryActiveRecord!');
         }
 
-        $this->model = $categoryActiveRecord;
+        $this->model = $model;
     }
 
     public function getId(): int

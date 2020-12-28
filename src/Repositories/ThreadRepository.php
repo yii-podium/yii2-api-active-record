@@ -37,7 +37,7 @@ final class ThreadRepository implements ThreadRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(ActiveRecord $model): void
+    public function setModel(?ActiveRecord $model): void
     {
         if (!$model instanceof ThreadActiveRecord) {
             throw new LogicException('You need to pass Podium\ActiveRecordApi\ActiveRecords\ThreadActiveRecord!');

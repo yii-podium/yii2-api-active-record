@@ -11,6 +11,7 @@ use Podium\Api\Interfaces\GroupRepositoryInterface;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
 use yii\base\NotSupportedException;
+use yii\db\ActiveRecord;
 use yii\di\Instance;
 
 final class GroupRepository implements GroupRepositoryInterface
@@ -40,9 +41,13 @@ final class GroupRepository implements GroupRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(GroupActiveRecord $activeRecord): void
+    public function setModel(?ActiveRecord $model): void
     {
-        $this->model = $activeRecord;
+        if (!$model instanceof GroupActiveRecord) {
+            throw new LogicException('You need to pass Podium\ActiveRecordApi\ActiveRecords\GroupActiveRecord!');
+        }
+
+        $this->model = $model;
     }
 
     public function getId(): int

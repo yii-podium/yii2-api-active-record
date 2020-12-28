@@ -12,6 +12,7 @@ use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\RepositoryInterface;
 use Throwable;
 use yii\base\NotSupportedException;
+use yii\db\ActiveRecord;
 use yii\db\StaleObjectException;
 
 use function is_int;
@@ -38,9 +39,13 @@ final class LogRepository implements LogRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(?LogActiveRecord $activeRecord): void
+    public function setModel(?ActiveRecord $model): void
     {
-        $this->model = $activeRecord;
+        if (!$model instanceof LogActiveRecord) {
+            throw new LogicException('You need to pass Podium\ActiveRecordApi\ActiveRecords\LogActiveRecord!');
+        }
+
+        $this->model = $model;
     }
 
     public function getErrors(): array

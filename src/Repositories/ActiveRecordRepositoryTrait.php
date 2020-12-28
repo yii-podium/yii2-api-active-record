@@ -25,7 +25,7 @@ trait ActiveRecordRepositoryTrait
 
     abstract public function getModel(): ActiveRecord;
 
-    abstract public function setModel(ActiveRecord $model): void;
+    abstract public function setModel(?ActiveRecord $model): void;
 
     public function getCollection(): ActiveDataProvider
     {

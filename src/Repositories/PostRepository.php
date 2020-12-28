@@ -37,13 +37,13 @@ final class PostRepository implements PostRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(ActiveRecord $postActiveRecord): void
+    public function setModel(ActiveRecord $postModel): void
     {
-        if (!$postActiveRecord instanceof PostActiveRecord) {
+        if (!$postModel instanceof PostActiveRecord) {
             throw new LogicException('You need to pass Podium\ActiveRecordApi\ActiveRecords\PostActiveRecord!');
         }
 
-        $this->model = $postActiveRecord;
+        $this->model = $postModel;
     }
 
     public function getId(): int

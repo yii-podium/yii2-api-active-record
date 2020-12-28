@@ -33,9 +33,9 @@ final class RankRepository implements RankRepositoryInterface
         return $this->model;
     }
 
-    public function setModel(RankActiveRecord $activeRecord): void
+    public function setModel(RankActiveRecord $model): void
     {
-        $this->model = $activeRecord;
+        $this->model = $model;
     }
 
     public function getId(): int
