@@ -7,6 +7,7 @@ namespace Podium\ActiveRecordApi\Repositories;
 use DomainException;
 use LogicException;
 use Podium\ActiveRecordApi\ActiveRecords\ThumbActiveRecord;
+use Podium\ActiveRecordApi\Enums\Thumb;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
 use Podium\Api\Interfaces\PostRepositoryInterface;
 use Podium\Api\Interfaces\ThumbRepositoryInterface;
@@ -105,12 +106,12 @@ final class ThumbRepository implements ThumbRepositoryInterface
 
     public function isUp(): bool
     {
-        return 1 === $this->getModel()->thumb; // TODO Add Enum
+        return Thumb::UP === $this->getModel()->thumb;
     }
 
     public function isDown(): bool
     {
-        return -1 === $this->getModel()->thumb;
+        return Thumb::DOWN === $this->getModel()->thumb;
     }
 
     public function up(): bool
