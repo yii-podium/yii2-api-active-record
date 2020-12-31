@@ -198,11 +198,9 @@ final class PostRepository implements PostRepositoryInterface
 
     public function getAuthor(): MemberRepositoryInterface
     {
-        // TODO: Implement getAuthor() method.
-    }
+        $member = new MemberRepository();
+        $member->setModel($this->getModel()->author);
 
-    public function getAllowedGroups(): array
-    {
-        // TODO: Implement getAllowedGroups() method.
+        return $member;
     }
 }

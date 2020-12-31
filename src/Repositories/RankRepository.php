@@ -71,13 +71,11 @@ final class RankRepository implements RankRepositoryInterface
         return true;
     }
 
+    /**
+     * @throws NotSupportedException
+     */
     public function getAuthor(): MemberRepositoryInterface
     {
-        // TODO: Implement getAuthor() method.
-    }
-
-    public function getAllowedGroups(): array
-    {
-        // TODO: Implement getAllowedGroups() method.
+        throw new NotSupportedException('Rank does not have author!');
     }
 }

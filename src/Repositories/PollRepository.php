@@ -76,9 +76,6 @@ final class PollRepository implements PollRepositoryInterface
             return false;
         }
 
-        $poll->author_id = $authorId;
-        $poll->thread_id = $threadId;
-
         if (!$poll->save()) {
             $this->errors = $poll->errors;
 

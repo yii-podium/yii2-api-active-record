@@ -156,11 +156,9 @@ final class MessageRepository implements MessageRepositoryInterface
 
     public function getAuthor(): MemberRepositoryInterface
     {
-        // TODO: Implement getAuthor() method.
-    }
+        $member = new MemberRepository();
+        $member->setModel($this->getModel()->sender);
 
-    public function getAllowedGroups(): array
-    {
-        // TODO: Implement getAllowedGroups() method.
+        return $member;
     }
 }
