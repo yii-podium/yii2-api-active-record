@@ -54,7 +54,7 @@ final class ThumbRepository implements ThumbRepositoryInterface
 
         $thumb->member_id = $memberId;
         $thumb->post_id = $postId;
-        $thumb->thumb = 0;
+        $thumb->thumb = Thumb::NONE;
 
         $this->model = $thumb;
     }
@@ -118,7 +118,7 @@ final class ThumbRepository implements ThumbRepositoryInterface
     {
         $thumb = $this->getModel();
 
-        $thumb->thumb = 1;
+        $thumb->thumb = Thumb::UP;
 
         if (!$thumb->validate()) {
             $this->errors = $thumb->errors;
@@ -133,7 +133,7 @@ final class ThumbRepository implements ThumbRepositoryInterface
     {
         $thumb = $this->getModel();
 
-        $thumb->thumb = -1;
+        $thumb->thumb = Thumb::DOWN;
 
         if (!$thumb->validate()) {
             $this->errors = $thumb->errors;

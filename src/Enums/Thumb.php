@@ -8,4 +8,5 @@ final class Thumb
 {
     public const UP = 1;
     public const DOWN = -1;
+    public const NONE = 0;
 }
