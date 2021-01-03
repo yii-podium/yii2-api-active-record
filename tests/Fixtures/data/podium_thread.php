@@ -44,7 +44,7 @@ return [
         'visible' => false,
         'pinned' => true,
         'locked' => true,
-        'posts_count' => 0,
+        'posts_count' => 1,
         'views_count' => 0,
         'created_post_at' => null,
         'updated_post_at' => null,
