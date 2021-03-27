@@ -11,6 +11,8 @@ use Podium\ActiveRecordApi\Repositories\MemberRepository;
 use Podium\Tests\DbTestCase;
 use Podium\Tests\Fixtures\CategoryFixture;
 
+use function str_repeat;
+
 class CategoryBuilderTest extends DbTestCase
 {
     public function fixtures(): array
@@ -29,6 +31,7 @@ class CategoryBuilderTest extends DbTestCase
 
         $category = CategoryActiveRecord::findOne(4);
         self::assertSame(1, $category->author_id);
+        self::assertSame(1, $category->author->id);
         self::assertSame(1, $category->visible);
         self::assertSame('New Category', $category->name);
         self::assertSame('new-category', $category->slug);
@@ -86,5 +89,127 @@ class CategoryBuilderTest extends DbTestCase
         self::assertSame(10, $category->sort);
         self::assertNotEqualsWithDelta(time(), $category->created_at, 10);
         self::assertEqualsWithDelta(time(), $category->updated_at, 10);
+    }
+
+    public function testCreatingWithoutData(): void
+    {
+        $author = new MemberRepository();
+        $author->setModel(MemberActiveRecord::findOne(1));
+
+        $response = $this->podium->category->create($author);
+
+        self::assertFalse($response->getResult());
+        self::assertSame([], $response->getErrors());
+    }
+
+    public function testCreatingWithoutName(): void
+    {
+        $author = new MemberRepository();
+        $author->setModel(MemberActiveRecord::findOne(1));
+
+        $response = $this->podium->category->create($author, ['slug' => 'slug']);
+
+        self::assertFalse($response->getResult());
+        self::assertSame(
+            ['name' => ['Category Name cannot be blank.']],
+            $response->getErrors()
+        );
+    }
+
+    public function testCreatingWithTooLongName(): void
+    {
+        $author = new MemberRepository();
+        $author->setModel(MemberActiveRecord::findOne(1));
+
+        $response = $this->podium->category->create($author, ['name' => str_repeat('a', 192)]);
+
+        self::assertFalse($response->getResult());
+        self::assertSame(
+            [
+                'name' => ['Category Name should contain at most 191 characters.'],
+                'slug' => ['Category Slug should contain at most 191 characters.']
+            ],
+            $response->getErrors()
+        );
+    }
+
+    public function testCreatingWithTooLongDescription(): void
+    {
+        $author = new MemberRepository();
+        $author->setModel(MemberActiveRecord::findOne(1));
+
+        $response = $this->podium->category->create(
+            $author,
+            [
+                'name' => 'name',
+                'description' => str_repeat('a', 256),
+            ]
+        );
+
+        self::assertFalse($response->getResult());
+        self::assertSame(
+            ['description' => ['Category Description should contain at most 255 characters.']],
+            $response->getErrors()
+        );
+    }
+
+    public function testCreatingWithStringSort(): void
+    {
+        $author = new MemberRepository();
+        $author->setModel(MemberActiveRecord::findOne(1));
+
+        $response = $this->podium->category->create(
+            $author,
+            [
+                'name' => 'name',
+                'sort' => 'a',
+            ]
+        );
+
+        self::assertFalse($response->getResult());
+        self::assertSame(
+            ['sort' => ['Category Sort Order must be an integer.']],
+            $response->getErrors()
+        );
+    }
+
+    public function testCreatingWithInvalidSlug(): void
+    {
+        $author = new MemberRepository();
+        $author->setModel(MemberActiveRecord::findOne(1));
+
+        $response = $this->podium->category->create(
+            $author,
+            [
+                'name' => 'name',
+                'slug' => '___'
+            ]
+        );
+
+        self::assertFalse($response->getResult());
+        self::assertSame(
+            ['slug' => ['Category Slug is invalid.']],
+            $response->getErrors()
+        );
+    }
+
+    public function testCreatingWithExistingSlug(): void
+    {
+        $author = new MemberRepository();
+        $author->setModel(MemberActiveRecord::findOne(1));
+
+        $response = $this->podium->category->create(
+            $author,
+            [
+                'name' => 'name',
+                'slug' => 'category-2'
+            ]
+        );
+
+        self::assertFalse($response->getResult());
+        self::assertSame(
+            ['slug' => ['Category Slug "category-2" has already been taken.']],
+            $response->getErrors()
+        );
     }
 }
