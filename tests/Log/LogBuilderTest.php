@@ -29,6 +29,7 @@ class LogBuilderTest extends DbTestCase
         $log = LogActiveRecord::findOne(2);
         self::assertSame('Test Action', $log->action);
         self::assertSame(1, $log->member_id);
+        self::assertSame(1, $log->member->id);
         self::assertEqualsWithDelta(time(), $log->created_at, 10);
         self::assertEqualsWithDelta(time(), $log->updated_at, 10);
     }
