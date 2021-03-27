@@ -39,7 +39,9 @@ class ThreadGroupTest extends DbTestCase
 
         $threadGroup = ThreadGroupActiveRecord::findOne(2);
         self::assertSame(2, $threadGroup->thread_id);
+        self::assertSame(2, $threadGroup->thread->id);
         self::assertSame(1, $threadGroup->group_id);
+        self::assertSame(1, $threadGroup->group->id);
         self::assertEqualsWithDelta(time(), $threadGroup->created_at, 10);
     }
 
