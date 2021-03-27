@@ -39,7 +39,9 @@ class ForumGroupTest extends DbTestCase
 
         $forumGroup = ForumGroupActiveRecord::findOne(2);
         self::assertSame(2, $forumGroup->forum_id);
+        self::assertSame(2, $forumGroup->forum->id);
         self::assertSame(1, $forumGroup->group_id);
+        self::assertSame(1, $forumGroup->group->id);
         self::assertEqualsWithDelta(time(), $forumGroup->created_at, 10);
     }
 
