@@ -39,7 +39,9 @@ class CategoryGroupTest extends DbTestCase
 
         $categoryGroup = CategoryGroupActiveRecord::findOne(2);
         self::assertSame(2, $categoryGroup->category_id);
+        self::assertSame(2, $categoryGroup->category->id);
         self::assertSame(1, $categoryGroup->group_id);
+        self::assertSame(1, $categoryGroup->group->id);
         self::assertEqualsWithDelta(time(), $categoryGroup->created_at, 10);
     }
 

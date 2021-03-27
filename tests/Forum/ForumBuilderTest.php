@@ -34,6 +34,9 @@ class ForumBuilderTest extends DbTestCase
 
         $forum = ForumActiveRecord::findOne(4);
         self::assertSame(1, $forum->author_id);
+        self::assertSame(1, $forum->author->id);
+        self::assertSame(1, $forum->category_id);
+        self::assertSame(1, $forum->category->id);
         self::assertSame(1, $forum->visible);
         self::assertSame('New Forum', $forum->name);
         self::assertSame('new-forum', $forum->slug);
@@ -95,5 +98,152 @@ class ForumBuilderTest extends DbTestCase
         self::assertSame(10, $forum->sort);
         self::assertNotEqualsWithDelta(time(), $forum->created_at, 10);
         self::assertEqualsWithDelta(time(), $forum->updated_at, 10);
+    }
+
+    public function testCreatingWithoutData(): void
+    {
+        $author = new MemberRepository();
+        $author->setModel(MemberActiveRecord::findOne(1));
+
+        $category = new CategoryRepository();
+        $category->setModel(CategoryActiveRecord::findOne(1));
+
+        $response = $this->podium->forum->create($author, $category);
+
+        self::assertFalse($response->getResult());
+        self::assertSame([], $response->getErrors());
+    }
+
+    public function testCreatingWithoutName(): void
+    {
+        $author = new MemberRepository();
+        $author->setModel(MemberActiveRecord::findOne(1));
+
+        $category = new CategoryRepository();
+        $category->setModel(CategoryActiveRecord::findOne(1));
+
+        $response = $this->podium->forum->create($author, $category, ['slug' => 'slug']);
+
+        self::assertFalse($response->getResult());
+        self::assertSame(
+            ['name' => ['Forum Name cannot be blank.']],
+            $response->getErrors()
+        );
+    }
+
+    public function testCreatingWithTooLongName(): void
+    {
+        $author = new MemberRepository();
+        $author->setModel(MemberActiveRecord::findOne(1));
+
+        $category = new CategoryRepository();
+        $category->setModel(CategoryActiveRecord::findOne(1));
+
+        $response = $this->podium->forum->create($author, $category, ['name' => str_repeat('a', 192)]);
+
+        self::assertFalse($response->getResult());
+        self::assertSame(
+            [
+                'name' => ['Forum Name should contain at most 191 characters.'],
+                'slug' => ['Forum Slug should contain at most 191 characters.']
+            ],
+            $response->getErrors()
+        );
+    }
+
+    public function testCreatingWithTooLongDescription(): void
+    {
+        $author = new MemberRepository();
+        $author->setModel(MemberActiveRecord::findOne(1));
+
+        $category = new CategoryRepository();
+        $category->setModel(CategoryActiveRecord::findOne(1));
+
+        $response = $this->podium->forum->create(
+            $author,
+            $category,
+            [
+                'name' => 'name',
+                'description' => str_repeat('a', 256),
+            ]
+        );
+
+        self::assertFalse($response->getResult());
+        self::assertSame(
+            ['description' => ['Forum Description should contain at most 255 characters.']],
+            $response->getErrors()
+        );
+    }
+
+    public function testCreatingWithStringSort(): void
+    {
+        $author = new MemberRepository();
+        $author->setModel(MemberActiveRecord::findOne(1));
+
+        $category = new CategoryRepository();
+        $category->setModel(CategoryActiveRecord::findOne(1));
+
+        $response = $this->podium->forum->create(
+            $author,
+            $category,
+            [
+                'name' => 'name',
+                'sort' => 'a',
+            ]
+        );
+
+        self::assertFalse($response->getResult());
+        self::assertSame(
+            ['sort' => ['Forum Sort Order must be an integer.']],
+            $response->getErrors()
+        );
+    }
+
+    public function testCreatingWithInvalidSlug(): void
+    {
+        $author = new MemberRepository();
+        $author->setModel(MemberActiveRecord::findOne(1));
+
+        $category = new CategoryRepository();
+        $category->setModel(CategoryActiveRecord::findOne(1));
+
+        $response = $this->podium->forum->create(
+            $author,
+            $category,
+            [
+                'name' => 'name',
+                'slug' => '___'
+            ]
+        );
+
+        self::assertFalse($response->getResult());
+        self::assertSame(
+            ['slug' => ['Forum Slug is invalid.']],
+            $response->getErrors()
+        );
+    }
+
+    public function testCreatingWithExistingSlug(): void
+    {
+        $author = new MemberRepository();
+        $author->setModel(MemberActiveRecord::findOne(1));
+
+        $category = new CategoryRepository();
+        $category->setModel(CategoryActiveRecord::findOne(1));
+
+        $response = $this->podium->forum->create(
+            $author,
+            $category,
+            [
+                'name' => 'name',
+                'slug' => 'forum-2'
+            ]
+        );
+
+        self::assertFalse($response->getResult());
+        self::assertSame(
+            ['slug' => ['Forum Slug "forum-2" has already been taken.']],
+            $response->getErrors()
+        );
     }
 }

@@ -7,6 +7,7 @@ return [
     'category.sort' => 'Category Sort Order',
     'category.sort.order' => 'Category Sort Order',
     'category.visible' => 'Category Visible For Guests',
+    'forum.description' => 'Forum Description',
     'forum.name' => 'Forum Name',
     'forum.slug' => 'Forum Slug',
     'forum.sort' => 'Forum Sort Order',

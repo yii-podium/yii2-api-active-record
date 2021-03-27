@@ -66,6 +66,7 @@ class ForumActiveRecord extends ActiveRecord
     {
         return [
             'name' => Yii::t('podium.label', 'forum.name'),
+            'description' => Yii::t('podium.label', 'forum.description'),
             'sort' => Yii::t('podium.label', 'forum.sort'),
             'slug' => Yii::t('podium.label', 'forum.slug'),
         ];
