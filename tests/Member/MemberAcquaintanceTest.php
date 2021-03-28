@@ -36,6 +36,8 @@ class MemberAcquaintanceTest extends DbTestCase
             ]
         );
         self::assertSame(AcquaintanceType::FRIEND, $acquaintance->type_id);
+        self::assertSame(1, $acquaintance->member->id);
+        self::assertSame(4, $acquaintance->target->id);
         self::assertEqualsWithDelta(time(), $acquaintance->created_at, 10);
         self::assertEqualsWithDelta(time(), $acquaintance->updated_at, 10);
     }

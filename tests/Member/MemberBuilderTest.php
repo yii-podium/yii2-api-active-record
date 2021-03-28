@@ -47,6 +47,7 @@ class MemberBuilderTest extends DbTestCase
 
         self::assertSame('test member', $model->username);
         self::assertSame('test-member', $model->slug);
+        self::assertSame([], $model->groups);
         self::assertSame(MemberStatus::ACTIVE, $model->status_id);
         self::assertEqualsWithDelta(time(), $model->created_at, 10);
         self::assertEqualsWithDelta(time(), $model->updated_at, 10);
