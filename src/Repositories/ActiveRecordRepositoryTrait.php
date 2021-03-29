@@ -54,7 +54,7 @@ trait ActiveRecordRepositoryTrait
         $modelClass = $this->getActiveRecordClass();
 
         /** @var ActiveRecord $modelClass */
-        $model = $modelClass::findOne($id);
+        $model = $modelClass::find()->where(['id' => $id])->one();
 
         if (null === $model) {
             return false;

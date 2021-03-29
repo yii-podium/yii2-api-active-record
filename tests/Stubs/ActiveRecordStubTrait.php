@@ -16,20 +16,28 @@ trait ActiveRecordStubTrait
      */
     public static $deleteResult = 1;
     public static bool $deletedCalled = false;
+    public static bool $loadResult = true;
+    public static bool $loadCalled = false;
     public static bool $validationResult = true;
     public static bool $validateCalled = false;
     public static bool $saveResult = true;
     public static bool $saveCalled = false;
+    public static array $eachResult = [];
+    public static $hasOneResult;
 
     public static function resetStub(): void
     {
         static::$findResult = null;
         static::$deleteResult = 0;
         static::$validationResult = true;
+        static::$loadResult = true;
         static::$saveResult = true;
+        static::$eachResult = [];
+        static::$hasOneResult = null;
 
         static::$findCalled = false;
         static::$deletedCalled = false;
+        static::$loadCalled = false;
         static::$validateCalled = false;
         static::$saveCalled = false;
     }
@@ -42,6 +50,26 @@ trait ActiveRecordStubTrait
     public function where(): self
     {
         return $this;
+    }
+
+    public function orderBy(): self
+    {
+        return $this;
+    }
+
+    public function limit(): self
+    {
+        return $this;
+    }
+
+    public function each(): array
+    {
+        return static::$eachResult;
+    }
+
+    public function hasOne($class, $link)
+    {
+        return static::$hasOneResult;
     }
 
     /**
@@ -82,5 +110,16 @@ trait ActiveRecordStubTrait
         }
 
         return static::$saveResult;
+    }
+
+    public function load($data, $formName = null): bool
+    {
+        static::$loadCalled = true;
+
+        foreach ($data as $name => $value) {
+            $this->$name = $value;
+        }
+
+        return static::$loadResult;
     }
 }
