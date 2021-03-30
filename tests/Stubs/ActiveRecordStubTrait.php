@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Podium\Tests\Stubs;
 
+use Exception;
+
 trait ActiveRecordStubTrait
 {
     /**
@@ -24,6 +26,8 @@ trait ActiveRecordStubTrait
     public static bool $saveCalled = false;
     public static array $eachResult = [];
     public static $hasOneResult;
+    public static bool $linkResult = true;
+    public static bool $unlinkResult = true;
 
     public static function resetStub(): void
     {
@@ -34,6 +38,8 @@ trait ActiveRecordStubTrait
         static::$saveResult = true;
         static::$eachResult = [];
         static::$hasOneResult = null;
+        static::$linkResult = true;
+        static::$unlinkResult = true;
 
         static::$findCalled = false;
         static::$deletedCalled = false;
@@ -70,6 +76,25 @@ trait ActiveRecordStubTrait
     public function hasOne($class, $link)
     {
         return static::$hasOneResult;
+    }
+
+    public function andWhere(): self
+    {
+        return $this;
+    }
+
+    public function link($name, $model, $extraColumns = []): void
+    {
+        if (static::$linkResult === false) {
+            throw new Exception('Link failed');
+        }
+    }
+
+    public function unlink($name, $model, $delete = false): void
+    {
+        if (static::$unlinkResult === false) {
+            throw new Exception('Unlink failed');
+        }
     }
 
     /**

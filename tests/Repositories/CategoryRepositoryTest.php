@@ -8,11 +8,17 @@ use DomainException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 use Podium\ActiveRecordApi\Repositories\CategoryRepository;
+use Podium\ActiveRecordApi\Repositories\GroupRepository;
+use Podium\Api\Interfaces\GroupRepositoryInterface;
 use Podium\Api\Interfaces\MemberRepositoryInterface;
+use Podium\Tests\Stubs\ActiveDataFilterStub;
 use Podium\Tests\Stubs\BookmarkActiveRecordStub;
 use Podium\Tests\Stubs\CategoryActiveRecordStub;
+use Podium\Tests\Stubs\GroupActiveRecordStub;
 use Podium\Tests\Stubs\MemberActiveRecordStub;
+use stdClass;
 use yii\base\NotSupportedException;
+use yii\data\ActiveDataProvider;
 
 class CategoryRepositoryTest extends TestCase
 {
@@ -21,6 +27,7 @@ class CategoryRepositoryTest extends TestCase
     protected function setUp(): void
     {
         $this->repository = new CategoryRepository();
+        $this->repository->activeRecordClass = CategoryActiveRecordStub::class;
         CategoryActiveRecordStub::resetStub();
     }
 
@@ -43,9 +50,15 @@ class CategoryRepositoryTest extends TestCase
     public function testGetEmptyCollection(): void
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('You need to call fetchAll() first!');
+        $this->expectExceptionMessage('You need to call fetchAll() or setCollection() first!');
 
         $this->repository->getCollection();
+    }
+
+    public function testGetCollection(): void
+    {
+        $this->repository->setCollection(new ActiveDataProvider(['key' => 'key']));
+        self::assertSame('key', $this->repository->getCollection()->key);
     }
 
     public function testGetParent(): void
@@ -58,16 +71,138 @@ class CategoryRepositoryTest extends TestCase
 
     public function testFetchOneWithNoModelFound(): void
     {
-        $this->repository->activeRecordClass = CategoryActiveRecordStub::class;
         self::assertFalse($this->repository->fetchOne(1));
     }
 
     public function testFetchOneWithModelFound(): void
     {
         CategoryActiveRecordStub::$findResult = new CategoryActiveRecordStub(['id' => 1]);
-        $this->repository->activeRecordClass = CategoryActiveRecordStub::class;
         self::assertTrue($this->repository->fetchOne(1));
         self::assertSame(1, $this->repository->getModel()->id);
+    }
+
+    public function testFetchAllWithInvalidFilter(): void
+    {
+        $this->expectException(NotSupportedException::class);
+        $this->expectExceptionMessage('Only filters implementing yii\data\DataFilter are supported!');
+
+        $this->repository->fetchAll(new stdClass());
+    }
+
+    public function testFetchAllWithoutArguments(): void
+    {
+        $this->repository->fetchAll();
+        self::assertInstanceOf(CategoryActiveRecordStub::class, $this->repository->getCollection()->query);
+    }
+
+    public function testFetchAllWithFilter(): void
+    {
+        ActiveDataFilterStub::$buildCalled = false;
+        ActiveDataFilterStub::$buildResult = ['a' => 'b'];
+        $this->repository->fetchAll(new ActiveDataFilterStub());
+        self::assertTrue(ActiveDataFilterStub::$buildCalled);
+    }
+
+    public function testFetchAllWithSort(): void
+    {
+        $this->repository->fetchAll(null, false);
+        self::assertFalse($this->repository->getCollection()->sort);
+    }
+
+    public function testFetchAllWithPagination(): void
+    {
+        $this->repository->fetchAll(null, null, false);
+        self::assertFalse($this->repository->getCollection()->pagination);
+    }
+
+    public function testEditSuccess(): void
+    {
+        $this->repository->setModel(new CategoryActiveRecordStub());
+        self::assertTrue($this->repository->edit());
+    }
+
+    public function testEditLoadFail(): void
+    {
+        CategoryActiveRecordStub::$loadResult = false;
+        $this->repository->setModel(new CategoryActiveRecordStub());
+        self::assertFalse($this->repository->edit(['name' => 1]));
+    }
+
+    public function testEditValidationFail(): void
+    {
+        CategoryActiveRecordStub::$validationResult = false;
+        $this->repository->setModel(new CategoryActiveRecordStub());
+        self::assertFalse($this->repository->edit());
+        self::assertSame(['attribute' => ['error']], $this->repository->getErrors());
+    }
+
+    public function testEditSaveFail(): void
+    {
+        CategoryActiveRecordStub::$saveResult = false;
+        $this->repository->setModel(new CategoryActiveRecordStub());
+        self::assertFalse($this->repository->edit());
+    }
+
+    public function testHasGroupsMoreRequiredThanExisting(): void
+    {
+        $this->repository->setModel(new CategoryActiveRecordStub(['groups' => []]));
+        self::assertFalse($this->repository->hasGroups([1]));
+    }
+
+    public function testHasGroupsSuccess(): void
+    {
+        $group = $this->createMock(GroupRepositoryInterface::class);
+        $group->method('getId')->willReturn(1);
+
+        $this->repository->setModel(new CategoryActiveRecordStub(['groups' => [new GroupActiveRecordStub(['id' => 1])]]));
+        self::assertTrue($this->repository->hasGroups([$group]));
+    }
+
+    public function testHasGroupsFail(): void
+    {
+        $group = $this->createMock(GroupRepositoryInterface::class);
+        $group->method('getId')->willReturn(1);
+
+        $this->repository->setModel(new CategoryActiveRecordStub(['groups' => [new GroupActiveRecordStub(['id' => 2])]]));
+        self::assertFalse($this->repository->hasGroups([$group]));
+    }
+
+    public function testJoinGroupSuccess(): void
+    {
+        $group = new GroupRepository();
+        $group->setModel(new GroupActiveRecordStub());
+
+        $this->repository->setModel(new CategoryActiveRecordStub());
+        self::assertTrue($this->repository->join($group));
+    }
+
+    public function testJoinGroupFail(): void
+    {
+        $group = new GroupRepository();
+        $group->setModel(new GroupActiveRecordStub());
+
+        CategoryActiveRecordStub::$linkResult = false;
+        $this->repository->setModel(new CategoryActiveRecordStub());
+        self::assertFalse($this->repository->join($group));
+    }
+
+    public function testLeaveGroupSuccess(): void
+    {
+        $group = new GroupRepository();
+        $group->setModel(new GroupActiveRecordStub());
+
+        $this->repository->setModel(new CategoryActiveRecordStub());
+        self::assertTrue($this->repository->leave($group));
+    }
+
+    public function testLeaveGroupFail(): void
+    {
+        $group = new GroupRepository();
+        $group->setModel(new GroupActiveRecordStub());
+
+        CategoryActiveRecordStub::$unlinkResult = false;
+        $this->repository->setModel(new CategoryActiveRecordStub());
+        self::assertFalse($this->repository->leave($group));
     }
 
     public function testGetErrors(): void
@@ -107,7 +242,6 @@ class CategoryRepositoryTest extends TestCase
     public function testCreateWithLoadFail(): void
     {
         CategoryActiveRecordStub::$loadResult = false;
-        $this->repository->activeRecordClass = CategoryActiveRecordStub::class;
         $author = $this->createMock(MemberRepositoryInterface::class);
         $author->method('getId')->willReturn(1);
 
@@ -117,7 +251,6 @@ class CategoryRepositoryTest extends TestCase
     public function testCreateWithSortAndValidationFail(): void
     {
         CategoryActiveRecordStub::$validationResult = false;
-        $this->repository->activeRecordClass = CategoryActiveRecordStub::class;
         $author = $this->createMock(MemberRepositoryInterface::class);
         $author->method('getId')->willReturn(1);
 
@@ -127,7 +260,6 @@ class CategoryRepositoryTest extends TestCase
 
     public function testCreateWithSortAndSaveSuccess(): void
     {
-        $this->repository->activeRecordClass = CategoryActiveRecordStub::class;
         $author = $this->createMock(MemberRepositoryInterface::class);
         $author->method('getId')->willReturn(1);
 
@@ -139,7 +271,6 @@ class CategoryRepositoryTest extends TestCase
     public function testCreateWithoutSortAndExistingCategory(): void
     {
         CategoryActiveRecordStub::$findResult = new CategoryActiveRecordStub(['sort' => 15]);
-        $this->repository->activeRecordClass = CategoryActiveRecordStub::class;
         $author = $this->createMock(MemberRepositoryInterface::class);
         $author->method('getId')->willReturn(1);
 
@@ -150,7 +281,6 @@ class CategoryRepositoryTest extends TestCase
 
     public function testCreateWithoutSortAndNoCategories(): void
     {
-        $this->repository->activeRecordClass = CategoryActiveRecordStub::class;
         $author = $this->createMock(MemberRepositoryInterface::class);
         $author->method('getId')->willReturn(1);
 
@@ -231,8 +361,6 @@ class CategoryRepositoryTest extends TestCase
 
     public function testSortEmptySet(): void
     {
-        $this->repository->activeRecordClass = CategoryActiveRecordStub::class;
-
         self::assertTrue($this->repository->sort());
     }
 
@@ -240,7 +368,6 @@ class CategoryRepositoryTest extends TestCase
     {
         CategoryActiveRecordStub::$saveResult = false;
         CategoryActiveRecordStub::$eachResult = [new CategoryActiveRecordStub()];
-        $this->repository->activeRecordClass = CategoryActiveRecordStub::class;
 
         self::assertFalse($this->repository->sort());
     }
@@ -251,7 +378,6 @@ class CategoryRepositoryTest extends TestCase
         $cat2 = new CategoryActiveRecordStub(['sort' => 56]);
         $cat3 = new CategoryActiveRecordStub(['sort' => 17]);
         CategoryActiveRecordStub::$eachResult = [$cat1, $cat2, $cat3];
-        $this->repository->activeRecordClass = CategoryActiveRecordStub::class;
 
         self::assertTrue($this->repository->sort());
         self::assertSame(0, $cat1->sort);

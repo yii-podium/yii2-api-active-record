@@ -107,7 +107,7 @@ final class MessageParticipantRepository implements MessageParticipantRepository
             }
 
             $filterConditions = $filter->build();
-            if (false !== $filterConditions) {
+            if (false !== $filterConditions && [] !== $filterConditions) {
                 $query->andWhere($filterConditions);
             }
         }

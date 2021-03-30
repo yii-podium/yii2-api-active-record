@@ -19,6 +19,7 @@ class AcquaintanceRepositoryTest extends TestCase
     protected function setUp(): void
     {
         $this->repository = new AcquaintanceRepository();
+        $this->repository->activeRecordClass = AcquaintanceActiveRecordStub::class;
         AcquaintanceActiveRecordStub::resetStub();
     }
 
@@ -59,7 +60,6 @@ class AcquaintanceRepositoryTest extends TestCase
         $target = $this->createMock(MemberRepositoryInterface::class);
         $target->method('getId')->willReturn(2);
 
-        $this->repository->activeRecordClass = AcquaintanceActiveRecordStub::class;
         self::assertFalse($this->repository->fetchOne($member, $target));
     }
 
@@ -71,7 +71,6 @@ class AcquaintanceRepositoryTest extends TestCase
         $target->method('getId')->willReturn(2);
 
         AcquaintanceActiveRecordStub::$findResult = new AcquaintanceActiveRecordStub(['member_id' => 1]);
-        $this->repository->activeRecordClass = AcquaintanceActiveRecordStub::class;
         self::assertTrue($this->repository->fetchOne($member, $target));
         self::assertSame(1, $this->repository->getModel()->member_id);
     }
@@ -105,7 +104,6 @@ class AcquaintanceRepositoryTest extends TestCase
         $target = $this->createMock(MemberRepositoryInterface::class);
         $target->method('getId')->willReturn(2);
 
-        $this->repository->activeRecordClass = AcquaintanceActiveRecordStub::class;
         $this->repository->prepare($member, $target);
         $ar = $this->repository->getModel();
         self::assertSame(1, $ar->member_id);

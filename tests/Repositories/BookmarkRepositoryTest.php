@@ -19,6 +19,7 @@ class BookmarkRepositoryTest extends TestCase
     protected function setUp(): void
     {
         $this->repository = new BookmarkRepository();
+        $this->repository->activeRecordClass = BookmarkActiveRecordStub::class;
         BookmarkActiveRecordStub::resetStub();
     }
 
@@ -59,7 +60,6 @@ class BookmarkRepositoryTest extends TestCase
         $thread = $this->createMock(ThreadRepositoryInterface::class);
         $thread->method('getId')->willReturn(2);
 
-        $this->repository->activeRecordClass = BookmarkActiveRecordStub::class;
         self::assertFalse($this->repository->fetchOne($member, $thread));
     }
 
@@ -71,7 +71,6 @@ class BookmarkRepositoryTest extends TestCase
         $thread->method('getId')->willReturn(2);
 
         BookmarkActiveRecordStub::$findResult = new BookmarkActiveRecordStub(['member_id' => 1]);
-        $this->repository->activeRecordClass = BookmarkActiveRecordStub::class;
         self::assertTrue($this->repository->fetchOne($member, $thread));
         self::assertSame(1, $this->repository->getModel()->member_id);
     }
@@ -105,7 +104,6 @@ class BookmarkRepositoryTest extends TestCase
         $thread = $this->createMock(ThreadRepositoryInterface::class);
         $thread->method('getId')->willReturn(2);
 
-        $this->repository->activeRecordClass = BookmarkActiveRecordStub::class;
         $this->repository->prepare($member, $thread);
         $ar = $this->repository->getModel();
         self::assertSame(1, $ar->member_id);

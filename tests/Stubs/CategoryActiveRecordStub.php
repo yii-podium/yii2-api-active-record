@@ -12,6 +12,19 @@ class CategoryActiveRecordStub extends CategoryActiveRecord
 
     public function attributes(): array
     {
-        return ['id', 'author_id', 'name', 'slug', 'description', 'visible', 'sort', 'archived', 'created_at', 'updated_at', 'author'];
+        return [
+            'id',
+            'author_id',
+            'name',
+            'slug',
+            'description',
+            'visible',
+            'sort',
+            'archived',
+            'created_at',
+            'updated_at',
+            'author',
+            'groups',
+        ];
     }
 }

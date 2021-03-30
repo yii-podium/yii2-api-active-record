@@ -30,7 +30,7 @@ trait ActiveRecordRepositoryTrait
     public function getCollection(): ActiveDataProvider
     {
         if (null === $this->collection) {
-            throw new LogicException('You need to call fetchAll() first!');
+            throw new LogicException('You need to call fetchAll() or setCollection() first!');
         }
 
         return $this->collection;
@@ -85,7 +85,7 @@ trait ActiveRecordRepositoryTrait
             }
 
             $filterConditions = $filter->build();
-            if (false !== $filterConditions) {
+            if (false !== $filterConditions && [] !== $filterConditions) {
                 $query->andWhere($filterConditions);
             }
         }
